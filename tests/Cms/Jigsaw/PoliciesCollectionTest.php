@@ -3,8 +3,8 @@
 namespace Twomedia\PoliciesBuilder\Tests\Cms\Jigsaw;
 
 use Illuminate\Support\Collection;
-use Twomedia\PoliciesBuilder\Cms\Jigsaw\PoliciesCollection;
 use PHPUnit\Framework\TestCase;
+use Twomedia\PoliciesBuilder\Cms\Jigsaw\PoliciesCollection;
 use Twomedia\PoliciesBuilder\DTOs\Copyright;
 use Twomedia\PoliciesBuilder\Policies\Imprint;
 use Twomedia\PoliciesBuilder\Policies\TermsOfService;

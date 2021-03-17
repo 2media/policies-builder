@@ -18,7 +18,7 @@ class CreatePayloadFromConfigurationAndPayload
             'placeholders' => array_merge(
                 $this->defaultPlaceholders($configuration),
                 $policy->placeholders(),
-            )
+            ),
         ];
     }
 

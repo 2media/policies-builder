@@ -2,8 +2,8 @@
 
 namespace Twomedia\PoliciesBuilder\Tests\DTOs;
 
-use Twomedia\PoliciesBuilder\DTOs\Copyright;
 use PHPUnit\Framework\TestCase;
+use Twomedia\PoliciesBuilder\DTOs\Copyright;
 
 class CopyrightTest extends TestCase
 {

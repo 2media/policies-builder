@@ -2,7 +2,6 @@
 
 namespace Twomedia\PoliciesBuilder\Cms\Jigsaw;
 
-use Illuminate\Http\Client\Response;
 use Twomedia\PoliciesBuilder\Contracts\CanBeBuiltInJigsaw;
 
 class PolicyToInMemoryJigsawPage

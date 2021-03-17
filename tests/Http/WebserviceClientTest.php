@@ -3,8 +3,8 @@
 namespace Twomedia\PoliciesBuilder\Tests\Http;
 
 use Illuminate\Http\Client\Response;
-use Twomedia\PoliciesBuilder\Http\WebserviceClient;
 use PHPUnit\Framework\TestCase;
+use Twomedia\PoliciesBuilder\Http\WebserviceClient;
 
 class WebserviceClientTest extends TestCase
 {
@@ -18,8 +18,8 @@ class WebserviceClientTest extends TestCase
             'type' => 'imprint',
             'lang' => 'de',
             'placeholders' => [
-                'domain' => '2media.ch'
-            ]
+                'domain' => '2media.ch',
+            ],
         ];
 
         $client = new WebserviceClient();

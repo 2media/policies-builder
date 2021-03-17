@@ -56,8 +56,6 @@ class PoliciesConfiguration implements ArrayAccess
         return $this->config;
     }
 
-
-
     /**
      * Determine if an item exists at an offset.
      *

@@ -24,7 +24,6 @@ class PoliciesCollection
         return $this->getLanguagesToGenerate()
             ->map(function (string $language) {
                 return $this->getPoliciesToGenerate()->map(function (Policy $policy) use ($language) {
-
                     $response = (new WebserviceClient())->getPolicyForPayload($this->getPayload($policy, $language));
 
                     $metaTitle = $this->metaTitle($language, $policy);
@@ -59,7 +58,9 @@ class PoliciesCollection
     private function getPayload(Policy $type, string $language): array
     {
         return (new CreatePayloadFromConfigurationAndPayload())->create(
-            $this->policiesConfiguration, $type, $language
+            $this->policiesConfiguration,
+            $type,
+            $language
         );
     }
 
@@ -92,7 +93,8 @@ class PoliciesCollection
         return new class($lang) {
             public $lang;
 
-            public function __construct($lang) {
+            public function __construct($lang)
+            {
                 return $this->lang = $lang;
             }
         };

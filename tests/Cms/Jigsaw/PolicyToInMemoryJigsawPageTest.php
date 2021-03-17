@@ -2,8 +2,8 @@
 
 namespace Twomedia\PoliciesBuilder\Tests\Cms\Jigsaw;
 
-use Twomedia\PoliciesBuilder\Cms\Jigsaw\PolicyToInMemoryJigsawPage;
 use PHPUnit\Framework\TestCase;
+use Twomedia\PoliciesBuilder\Cms\Jigsaw\PolicyToInMemoryJigsawPage;
 use Twomedia\PoliciesBuilder\Policies\Imprint;
 
 class PolicyToInMemoryJigsawPageTest extends TestCase
