@@ -1,16 +1,21 @@
 {
-    "name": ":vendor_name/:package_name",
-    "description": ":package_description",
+    "name": "twomedia/policies-builder",
+    "description": "PHP Package to generate policies for websites",
     "keywords": [
-        ":vendor_name",
-        ":package_name"
+        "twomedia",
+        "policies-builder"
     ],
-    "homepage": "https://github.com/:vendor_name/:package_name",
+    "homepage": "https://github.com/2media/policies-builder",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
+            "name": "Lena Fuchs",
+            "email": "lena.fuchs@finanzen.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Stefan Zweifel",
+            "email": "stefan.zweifel@finanzen.com",
             "role": "Developer"
         }
     ],
@@ -25,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src"
+            "Twomedia\\PoliciesBuilder\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Tests\\": "tests"
+            "Twomedia\\PoliciesBuilder\\Tests\\": "tests"
         }
     },
     "scripts": {
