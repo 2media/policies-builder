@@ -8,6 +8,7 @@ use Illuminate\Http\Client\Response;
 
 class WebserviceClient
 {
+    // TODO: Update Endpoint to Production API
     const API_ENDPOINT = 'http://127.0.0.1:8000/policies?';
 
     /**
@@ -15,7 +16,7 @@ class WebserviceClient
      * @return Response
      * @throws RequestException
      */
-    public function get(array $payload): Response
+    public function getPolicyForPayload(array $payload): Response
     {
         $url = self::API_ENDPOINT . http_build_query($payload);
 

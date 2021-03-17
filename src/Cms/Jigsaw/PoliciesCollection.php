@@ -25,7 +25,7 @@ class PoliciesCollection
             ->map(function (string $language) {
                 return $this->getPoliciesToGenerate()->map(function (Policy $policy) use ($language) {
 
-                    $response = (new WebserviceClient())->get($this->getPayload($policy, $language));
+                    $response = (new WebserviceClient())->getPolicyForPayload($this->getPayload($policy, $language));
 
                     $metaTitle = $this->metaTitle($language, $policy);
 
@@ -109,6 +109,8 @@ class PoliciesCollection
     {
         $toJigsawPage = new PolicyToInMemoryJigsawPage();
 
-        return $toJigsawPage->generate($type, $policy, $language, $metaTitle);
+        $html = $policy->json('html');
+
+        return $toJigsawPage->generate($type, $html, $language, $metaTitle);
     }
 }

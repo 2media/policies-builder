@@ -17,7 +17,7 @@ class Copyright
         $this->description = $description;
     }
 
-    public static function make(string $author, string $source, string $description = null)
+    public static function make(string $author, string $source, string $description = null): Copyright
     {
         return new self(
             $author,

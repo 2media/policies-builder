@@ -7,14 +7,14 @@ use Twomedia\PoliciesBuilder\Contracts\CanBeBuiltInJigsaw;
 
 class PolicyToInMemoryJigsawPage
 {
-    public function generate(CanBeBuiltInJigsaw $policy, Response $response, string $language, string $metaTitle): array
+    public function generate(CanBeBuiltInJigsaw $policy, string $html, string $language, string $metaTitle): array
     {
         return [
             'extends' => '_layouts.policy',
             'lang' => $language,
             'locale' => $language,
             'meta_title' => $metaTitle,
-            'content' => $response->json()['html'],
+            'content' => $html,
 
             // Unique InMemory Filename
             'filename' => "index-{$language}-" . $policy->jigsawPathName(),
