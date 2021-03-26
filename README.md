@@ -17,12 +17,21 @@ composer require twomedia/policies-builder
 
 ## Usage
 
-> TBD
+### Jigsaw
+
+Internally some HTTP requests to APIs and resources will be cached to ensure faster build times.
+As Jigsaw doesn't expose a Cache system like in a normal Laravel application, we have to do it ourselves. Add the following line to your `bootstrap.php` file to register the register the packages cache into the Jigsaw Container.
 
 ```php
-$skeleton = new Twomedia\PoliciesBuilder();
-echo $skeleton->echoPhrase('Hello, Twomedia!');
+$events->beforeBuild(\Twomedia\PoliciesBuilder\Cms\Jigsaw\Listeners\RegisterCacheInContainer::class);
 ```
+
+
+
+
+### Statamic
+
+> TBD
 
 ## Testing
 
