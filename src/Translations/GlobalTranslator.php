@@ -40,6 +40,12 @@ class GlobalTranslator
         $this->cacheManager = $cacheManager;
     }
 
+    /**
+     * @param $page
+     * @param string $key
+     * @param array $replace
+     * @return array|string
+     */
     public function trans($page, string $key, array $replace = [])
     {
         $languageToTranslateTo = $page->lang ?? $page->fallbackLocale;
@@ -48,6 +54,8 @@ class GlobalTranslator
             throw new LogicException("Language {$languageToTranslateTo} not supported");
         }
 
+        // Make HTTP Request to Webservice, to fetch latest version of locale strings for the given language
+        // The response is cached for x amount of seconds.
         $remoteLocaleStirngs = $this->cacheManager->remember(
             "trans::policies::{$languageToTranslateTo}",
             self::SECONDS_TO_CACHE_LOCALE_FILES,
@@ -61,6 +69,10 @@ class GlobalTranslator
         return $translator->get($key, $replace);
     }
 
+    /**
+     * @param string $language
+     * @return array
+     */
     protected function fetchLocaleStringsForLanguage(string $language): array
     {
         // return json_decode(file_get_contents("https://v2.webservice.apy.ch/lang/{$language}/policies.json"), true);

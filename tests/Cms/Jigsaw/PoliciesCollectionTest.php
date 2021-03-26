@@ -52,7 +52,23 @@ class PoliciesCollectionTest extends TestCase
 
         $this->assertCount(4, $result);
 
-        // TODO: Assert that content looks as expected
+        $termsOfServicePolicies = $result->filter(function ($policy) {
+            return $policy['policy_type'] === 'terms';
+        });
+
+        $this->assertCount(2, $termsOfServicePolicies);
+        $this->assertEquals("Nutzungsbedingungen", $termsOfServicePolicies[0]['meta_title']);
+        $this->assertEquals("Conditions d'utilisation", $termsOfServicePolicies[2]['meta_title']);
+
+
+        $imprintPolicies = $result->filter(function ($policy) {
+            return $policy['policy_type'] === 'imprint';
+        });
+
+        $this->assertCount(2, $imprintPolicies);
+        $this->assertEquals("Impressum", $imprintPolicies[1]['meta_title']);
+        $this->assertEquals("Mentions légales", $imprintPolicies[3]['meta_title']);
+
     }
 
     protected function getJigsawConfiguration(): Collection
