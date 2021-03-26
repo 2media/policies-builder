@@ -68,7 +68,6 @@ class PoliciesCollectionTest extends TestCase
         $this->assertCount(2, $imprintPolicies);
         $this->assertEquals("Impressum", $imprintPolicies[1]['meta_title']);
         $this->assertEquals("Mentions légales", $imprintPolicies[3]['meta_title']);
-
     }
 
     protected function getJigsawConfiguration(): Collection
