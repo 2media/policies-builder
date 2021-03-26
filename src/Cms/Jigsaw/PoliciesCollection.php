@@ -111,7 +111,7 @@ class PoliciesCollection
     {
         $toJigsawPage = new PolicyToInMemoryJigsawPage();
 
-        $html = $policy->json('html');
+        $html = $policy->json()['html'];
 
         return $toJigsawPage->generate($type, $html, $language, $metaTitle);
     }
