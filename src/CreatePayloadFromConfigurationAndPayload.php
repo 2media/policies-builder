@@ -2,6 +2,7 @@
 
 namespace Twomedia\PoliciesBuilder;
 
+use LogicException;
 use Twomedia\PoliciesBuilder\Contracts\Policy;
 
 class CreatePayloadFromConfigurationAndPayload
@@ -24,6 +25,10 @@ class CreatePayloadFromConfigurationAndPayload
 
     private function defaultPlaceholders(PoliciesConfiguration $configuration): array
     {
+        if (! array_key_exists('domain', $configuration->toArray())) {
+            throw new LogicException("Domain is missing. Define one by using domain() on the PoliciesConfiguraiton.");
+        }
+
         return [
             'domain' => $configuration['domain'],
         ];

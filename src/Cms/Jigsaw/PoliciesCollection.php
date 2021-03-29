@@ -24,9 +24,10 @@ class PoliciesCollection
         return $this->getLanguagesToGenerate()
             ->map(function (string $language) {
                 return $this->getPoliciesToGenerate()->map(function (Policy $policy) use ($language) {
+
                     $response = (new WebserviceClient())->getPolicyForPayload($this->getPayload($policy, $language));
 
-                    $metaTitle = $this->metaTitle($language, $policy);
+                    $metaTitle = $this->getTranslatedMetaTitle($language, $policy);
 
                     return $this->generateInMemoryJigsawPage($policy, $response, $language, $metaTitle);
                 });
@@ -69,9 +70,11 @@ class PoliciesCollection
      * @param Policy $type
      * @return mixed
      */
-    private function metaTitle(string $language, Policy $type)
+    private function getTranslatedMetaTitle(string $language, Policy $type)
     {
-        return $this->translationFunction()($this->inMemoryPage($language), $type->metaTitleKey());
+        $page = new FakePage($language);
+
+        return $this->translationFunction()($page, $type->metaTitleKey());
     }
 
     /**
@@ -80,24 +83,6 @@ class PoliciesCollection
     private function translationFunction(): Closure
     {
         return $this->jigsawConfig->get('transGlobal');
-    }
-
-    /**
-     * Build an anonymous class which acts as a "page" for the translation function
-     *
-     * @param string $lang
-     * @return object
-     */
-    private function inMemoryPage(string $lang): object
-    {
-        return new class($lang) {
-            public $lang;
-
-            public function __construct($lang)
-            {
-                return $this->lang = $lang;
-            }
-        };
     }
 
     /**
