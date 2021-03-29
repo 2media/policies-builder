@@ -5,9 +5,9 @@ namespace Twomedia\PoliciesBuilder\Tests\Translations;
 use Illuminate\Cache\CacheManager;
 use Illuminate\Container\Container;
 use Illuminate\Filesystem\Filesystem;
+use PHPUnit\Framework\TestCase;
 use Twomedia\PoliciesBuilder\Cms\Jigsaw\FakePage;
 use Twomedia\PoliciesBuilder\Translations\GlobalTranslator;
-use PHPUnit\Framework\TestCase;
 
 class GlobalTranslatorTest extends TestCase
 {

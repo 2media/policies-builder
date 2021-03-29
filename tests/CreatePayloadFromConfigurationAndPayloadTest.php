@@ -3,8 +3,8 @@
 namespace Twomedia\PoliciesBuilder\Tests;
 
 use LogicException;
-use Twomedia\PoliciesBuilder\CreatePayloadFromConfigurationAndPayload;
 use PHPUnit\Framework\TestCase;
+use Twomedia\PoliciesBuilder\CreatePayloadFromConfigurationAndPayload;
 use Twomedia\PoliciesBuilder\Policies\TermsOfService;
 use Twomedia\PoliciesBuilder\PoliciesConfiguration;
 
