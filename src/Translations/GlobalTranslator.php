@@ -33,7 +33,10 @@ class GlobalTranslator
     public function __construct(CacheManager $cacheManager = null)
     {
         if ($cacheManager === null) {
-            /** @var CacheManager $cache */
+            /**
+             * @var CacheManager $cache
+             * @psalm-suppress UndefinedClass
+             */
             $cacheManager = Container::getInstance()->make(CacheManager::class);
         }
 

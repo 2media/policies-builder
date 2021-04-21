@@ -8,6 +8,9 @@ use TightenCo\Jigsaw\Jigsaw;
 
 class RegisterCacheInContainer
 {
+    /**
+     * @psalm-suppress UndefinedInterfaceMethod
+     */
     public function handle(Jigsaw $jigsaw): void
     {
         $container = $jigsaw->app;

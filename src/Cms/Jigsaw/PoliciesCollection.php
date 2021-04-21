@@ -97,6 +97,7 @@ class PoliciesCollection
 
         $html = $policy->json()['html'];
 
+        /** @psalm-suppress InvalidArgument */
         return $toJigsawPage->generate($type, $html, $language, $metaTitle);
     }
 }
