@@ -12,6 +12,20 @@ It currently supports the following policies:
 - (Privacy Policy) (Work in Progress)
 - (Conditions of Participation) (Work in Progress)
 
+```php
+'policies' => PoliciesConfiguration::make()
+    ->languages(['de', 'fr', 'it', 'en'])
+    ->domain('example.ch')
+    ->brand('2media')
+    ->types([
+        TermsOfService::make(),
+        Imprint::make()
+            ->imageCopyrights([
+                Copyright::make('Picasso', 'Adobe Stock', 'Hero Image 1'),
+            ]),
+    ]),
+```
+
 ## Installation
 
 You can install the package via composer:
