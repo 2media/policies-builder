@@ -11,7 +11,7 @@ class PoliciesConfiguration implements ArrayAccess
         'variant' => 'default',
     ];
 
-    public static function make()
+    public static function make(): self
     {
         return new self();
     }

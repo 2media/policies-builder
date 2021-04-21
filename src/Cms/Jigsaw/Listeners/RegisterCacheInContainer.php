@@ -8,7 +8,7 @@ use TightenCo\Jigsaw\Jigsaw;
 
 class RegisterCacheInContainer
 {
-    public function handle(Jigsaw $jigsaw)
+    public function handle(Jigsaw $jigsaw): void
     {
         $container = $jigsaw->app;
 
