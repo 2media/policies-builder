@@ -75,8 +75,7 @@ class GlobalTranslator
      */
     protected function fetchLocaleStringsForLanguage(string $language): array
     {
-        // return json_decode(file_get_contents("https://v2.webservice.apy.ch/lang/{$language}/policies.json"), true);
-        return json_decode(file_get_contents("http://127.0.0.1:8000/lang/{$language}/policies.json"), true);
+        return json_decode(file_get_contents("https://v2.webservice.apy.ch/lang/{$language}/policies.json"), true);
     }
 
     /**
