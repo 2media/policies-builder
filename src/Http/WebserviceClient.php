@@ -8,7 +8,6 @@ use Illuminate\Http\Client\Response;
 
 class WebserviceClient
 {
-    // TODO: Update Endpoint to Production API
     const API_ENDPOINT = 'https://v2.webservice.apy.ch/policies?';
 
     /**
