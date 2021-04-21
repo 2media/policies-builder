@@ -4,14 +4,19 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/twomedia/policies-builder/Tests?label=tests)](https://github.com/twomedia/policies-builder/actions?query=workflow%3ATests+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/twomedia/policies-builder.svg?style=flat-square)](https://packagist.org/packages/twomedia/policies-builder)
 
+A PHP package to build and generate policies for landingpages and websites.
+It currently supports the following policies:
 
-A PHP package to build and generate policies (Terms of Service, Privacy Policy, Imprint, Terms of Participations) for landingpages and websites.
+- Terms of Service
+- Imprint
+- (Privacy Policy) (Work in Progress)
+- (Conditions of Participation) (Work in Progress)
 
 ## Installation
 
 You can install the package via composer:
 
-```bash
+```shell
 composer require twomedia/policies-builder
 ```
 
@@ -19,23 +24,158 @@ composer require twomedia/policies-builder
 
 ### Jigsaw
 
-Internally some HTTP requests to APIs and resources will be cached to ensure faster build times.
-As Jigsaw doesn't expose a Cache system like in a normal Laravel application, we have to do it ourselves. Add the following line to your `bootstrap.php` file to register the register the packages cache into the Jigsaw Container.
+Before you can start generating policies with the package, you need to first configure your Jigsaw project.
+
+#### Collection & Template
+
+Add a new remote collection to your project. Add the following line to your projects `config.php`. (If you already use collections in your project, only add the `policies` key to your existing `collections`-array.)
+
+```php
+'collections' => [
+    'policies' => [
+        'items' => fn(Collection $config) => (new PoliciesCollection())->generate($config),
+    ],
+],
+```
+
+This remote collection will be responsible for generating all configured policies.
+
+In addition create a new layout file under `source/_layouts.policy`. All generated policies will extend this layout file.
+
+#### Policies Configuration
+
+Next, add a `policies` key to your projects `config.php` with a `PoliciesConfiguration` instance.
+
+```php
+'policies' => PoliciesConfiguration::make()
+    ->languages(['de'])
+    ->domain('example.com')
+    ->brand('2media')
+    ->types([
+        // Policies Objects
+    ]),
+```
+
+The `PoliciesConfiguration`-object holds configuration values which are used by all policies. See below for supported methods.
+
+##### `languages([])`
+
+**Required**. Accepts an array of ISO-639-1 language codes for which policies should be generated.
+
+We currently support:
+
+- `de` (German)
+- `fr` (French)
+- `it` (Italian)
+- `en` (English)
+- `es` (Spanish)
+- `pt` (Portuguese)
+- `sr` (Serbian)
+- `sq` (Albanian)
+- `tr` (Turkish)
+
+##### `domain(string)`
+
+**Required**. The domain of the project.
+
+##### `brand(string)`
+
+Optional. Defaults to `2media`. Define for which brand the policies should be generated. Depending on the brand, different policies are generated.
+
+##### `variant(string)`
+
+Optional. Defaults to `default`. Define which variant of policies you would like use in this project.
+
+> TODO: Needs better documentation and examples.
+
+##### `types([])`
+
+**Required**. An array of configured policies. See [Supported Policies](#supported-policies) for details.
+
+
+#### Supported Policies
+
+The following policies can currently be built with this package.
+
+##### Terms of Service
+
+By adding the following policy to the `type()` method of the `PoliciesConfiguration` a terms of service policy is being generated.
+
+```php
+TermsOfService::make(),
+```
+
+*There are currently no specific configuration options available for `TermsOfService`.*
+
+##### Imprint
+
+To generate imprints, add the following code to the `type()` method of the `PoliciesConfiguration`.
+Optionally, the package also generates an image copyright section for you.
+
+```php
+Imprint::make()
+    ->imageCopyrights([
+        Copyright::make('Author', 'Source', 'Internal Note'),
+    ]),
+```
+
+
+**‌`imageCopyrights([Copyright])`**
+
+Optional. Use the `imageCopyrights()` method and the `Copyright`-object to define the image copyrights of the project.
+
+(Note the example below assumes you use PHP 8.0 and [Named Arguments](https://stitcher.io/blog/php-8-named-arguments))
+
+```php
+Copyright::make(author: 'Picasso', source: 'Unsplash', description: 'Hero Image');
+```
+
+##### Privacy Policy
+
+> Not implemented yet
+
+##### Conditions of Participation
+
+> Not implemented yet
+
+#### Global Translations
+
+> TODO: Update this documentation section.
+
+Instead of defining the translations for the names of the policies ("Impressum", "Conditions d’utilisation") for the policies in your Jigsaw project, you can use the `GlobalTranslator` that comes with the package.
+
+The `GlobalTranslator` connects with our Webservice and gets the translations from a central place. If you follow these directions, the HTTP requests won't have any impact on the build time, as the requests/responses are cached for 24 hours on your machine.
+
+**Setup Caching**
+As Jigsaw doesn't expose a Cache system like in a normal Laravel application, we have to do it ourselves. Add the following line to your `bootstrap.php` file to register the packages cache into the Jigsaw Container.
 
 ```php
 $events->beforeBuild(\Twomedia\PoliciesBuilder\Cms\Jigsaw\Listeners\RegisterCacheInContainer::class);
 ```
 
+**Add `transGlobal` function**
+Add the following line to your projects `config.php` to expose the `GlobalTranslator` in your projects blade templates.
 
+```php
+'transGlobal' => function ($page, $key, array $replace = []) {
+    return Container::getInstance()->make(GlobalTranslator::class)->trans($page, $key, $replace);
+},
+```
+
+In your templates, you can now use `transGlobal()` method to get translated strings for all the policies.
+
+```blade
+{{ $page->transGlobal('global.terms') }}
+```
 
 
 ### Statamic
 
-> TBD
+> The package currently doesn't support Statamic yet.
 
 ## Testing
 
-```bash
+```shell
 composer test
 ```
 
