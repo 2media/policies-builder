@@ -31,7 +31,7 @@ It currently supports the following policies:
 You can install the package via composer:
 
 ```shell
-composer require twomedia/policies-builder
+composer require 2media/policies-builder
 ```
 
 ## Usage
