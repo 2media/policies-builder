@@ -15,4 +15,4 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## 1.0.0 - 2021-04-22
 
-- initial release
+- Implement v1 ([#1](https://github.com/2media/policies-builder/pull/1)) @stefanzweifel
