@@ -1,8 +1,8 @@
-# PHP Package to generate policies for websites
+# 2media Policies Builder
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/twomedia/policies-builder.svg?style=flat-square)](https://packagist.org/packages/twomedia/policies-builder)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/twomedia/policies-builder/Tests?label=tests)](https://github.com/twomedia/policies-builder/actions?query=workflow%3ATests+branch%3Amaster)
-[![Total Downloads](https://img.shields.io/packagist/dt/twomedia/policies-builder.svg?style=flat-square)](https://packagist.org/packages/twomedia/policies-builder)
+[![Tests](https://github.com/2media/policies-builder/actions/workflows/run-tests.yml/badge.svg)](https://github.com/2media/policies-builder/actions/workflows/run-tests.yml)
+[![Psalm](https://github.com/2media/policies-builder/actions/workflows/psalm.yml/badge.svg)](https://github.com/2media/policies-builder/actions/workflows/psalm.yml)
+[![Check & fix styling](https://github.com/2media/policies-builder/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/2media/policies-builder/actions/workflows/php-cs-fixer.yml)
 
 A PHP package to build and generate policies for landingpages and websites.
 It currently supports the following policies:
