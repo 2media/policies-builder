@@ -27,8 +27,20 @@ It currently supports the following policies:
 ```
 
 ## Installation
+The package can be installed via composer. However, as this is a private package, it is not generally available by simply calling `composer require`.
 
-You can install the package via composer:
+Add a `repositories` key like below to your `composer.json`.
+
+```json
+"repositories": [
+    {
+        "type": "composer",
+        "url": "https://packages.2media.ch"
+    }
+],
+```
+
+Now you can install the package by running.
 
 ```shell
 composer require 2media/policies-builder
