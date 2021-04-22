@@ -1,0 +1,71 @@
+ame-template: '$RESOLVED_VERSION'
+tag-template: '$RESOLVED_VERSION'
+template: |
+  # Unreleased changes
+  $CHANGES
+
+change-template: '- $TITLE ([#$NUMBER](https://github.com/2media/policies-builder/pull/$NUMBER)) @$AUTHOR'
+
+categories:
+  - title: Added
+    labels:
+        - 'changelog:added'
+  - title: Changed
+    labels:
+      - 'changelog:changed'
+  - title: Deprecated
+    labels:
+      - 'changelog:deprecated'
+  - title: Removed
+    labels:
+      - 'changelog:removed'
+  - title: Fixed
+    labels:
+      - 'changelog:fixed'
+  - title: Security
+    labels:
+      - 'changelog:security'
+  - title: 'Dependency Updates'
+    labels:
+      - dependencies
+
+autolabeler:
+  - label: 'chore'
+    files:
+      - '*.md'
+    branch:
+      - '/docs{0,1}\/.+/'
+  - label: 'bug'
+    branch:
+      - '/hotfix\/.+/'
+      - '/fix\/.+/'
+    title:
+      - '/fix/i'
+  - label: 'enhancement'
+    branch:
+      - '/feature\/.+/'
+  - label: 'changelog:removed'
+    branch:
+      - '/remove\/.+/'
+  - label: 'changelog:deprecated'
+    branch:
+      - '/deprecate\/.+/'
+
+version-resolver:
+  major:
+    labels:
+      - 'type: breaking'
+  minor:
+    labels:
+      - 'type: feature'
+  patch:
+    labels:
+      - 'type: bug'
+      - 'type: maintenance'
+      - 'type: docs'
+      - 'type: dependencies'
+      - 'type: security'
+
+
+exclude-labels:
+  - 'skip-changelog'
