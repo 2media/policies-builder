@@ -24,8 +24,7 @@ class ConditionsOfParticipationsTest extends TestCase
         $this->assertNotEmpty($policy->placeholders());
 
         $this->assertEquals([
-            'end_date' => '31.12.2021'
+            'end_date' => '31.12.2021',
         ], $policy->placeholders());
     }
-
 }
