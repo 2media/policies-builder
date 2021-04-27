@@ -16,6 +16,13 @@ class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
         return new self();
     }
 
+    public function endDate(string $endDate): self
+    {
+        $this->placeholders['end_date'] = $endDate;
+
+        return $this;
+    }
+
     public function type(): string
     {
         return 'conditions_of_participation';
@@ -33,6 +40,6 @@ class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
 
     public function placeholders(): array
     {
-        return [];
+        return $this->placeholders;
     }
 }
