@@ -9,8 +9,8 @@ It currently supports the following policies:
 
 - Terms of Service
 - Imprint
-- (Privacy Policy) (Work in Progress)
-- (Conditions of Participation) (Work in Progress)
+- Privacy Policy
+- Conditions of Participation
 
 ```php
 'policies' => PoliciesConfiguration::make()
