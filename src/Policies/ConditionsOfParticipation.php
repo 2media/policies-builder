@@ -35,7 +35,7 @@ class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
 
     public function jigsawPathName(): string
     {
-        return 'conditions-of-participations';
+        return 'conditions-of-participation';
     }
 
     public function placeholders(): array
