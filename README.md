@@ -9,8 +9,8 @@ It currently supports the following policies:
 
 - Terms of Service
 - Imprint
-- (Privacy Policy) (Work in Progress)
-- (Conditions of Participation) (Work in Progress)
+- Privacy Policy
+- Conditions of Participation
 
 ```php
 'policies' => PoliciesConfiguration::make()
@@ -158,11 +158,31 @@ Copyright::make(author: 'Picasso', source: 'Unsplash', description: 'Hero Image'
 
 ##### Privacy Policy
 
-> Not implemented yet
+By adding the following policy to the `type()` method of the `PoliciesConfiguration` a privacy policy is being generated.
+
+```php
+PrivacyPolicy::make(),
+```
+
+*There are currently no specific configuration options available for `PrivacyPolicy`.*
 
 ##### Conditions of Participation
 
-> Not implemented yet
+To generate a "Conditions of Participation" policy for competition campaigns, add the following block to the `type()` method of the `PoliciesConfiguration`. 
+
+```php
+ConditionsOfParticipation::make();
+```
+
+**‌`endDate(string)`**
+
+Use the `endDate()` method to pass the end date of the competition to the policy.
+
+```php
+ConditionsOfParticipation::make()
+    ->endDate('31.12.2030');
+```
+
 
 #### Global Translations
 

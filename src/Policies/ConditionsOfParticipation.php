@@ -5,7 +5,7 @@ namespace Twomedia\PoliciesBuilder\Policies;
 use Twomedia\PoliciesBuilder\Contracts\CanBeBuiltInJigsaw;
 use Twomedia\PoliciesBuilder\Contracts\Policy;
 
-class ConditionsOfParticipations implements Policy, CanBeBuiltInJigsaw
+class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
 {
     public array $placeholders = [
         //
@@ -14,6 +14,13 @@ class ConditionsOfParticipations implements Policy, CanBeBuiltInJigsaw
     public static function make(): self
     {
         return new self();
+    }
+
+    public function endDate(string $endDate): self
+    {
+        $this->placeholders['end_date'] = $endDate;
+
+        return $this;
     }
 
     public function type(): string
@@ -33,6 +40,6 @@ class ConditionsOfParticipations implements Policy, CanBeBuiltInJigsaw
 
     public function placeholders(): array
     {
-        return [];
+        return $this->placeholders;
     }
 }
