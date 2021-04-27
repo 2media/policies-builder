@@ -5,7 +5,7 @@ namespace Twomedia\PoliciesBuilder\Policies;
 use Twomedia\PoliciesBuilder\Contracts\CanBeBuiltInJigsaw;
 use Twomedia\PoliciesBuilder\Contracts\Policy;
 
-class ConditionsOfParticipations implements Policy, CanBeBuiltInJigsaw
+class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
 {
     public array $placeholders = [
         //
