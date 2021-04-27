@@ -1,0 +1,14 @@
+name: Ping Private Composer Registry
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger new deployment of private composer registry
+        run: curl ${{ secrets.DEPLOY_TRIGGER_URL_FOR_PRIVATE_COMPOSER_REGISTRY }}
