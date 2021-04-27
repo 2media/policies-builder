@@ -30,7 +30,7 @@ class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
 
     public function metaTitleKey(): string
     {
-        return 'global.conditionsOfParticipation';
+        return 'global.conditions_of_participation';
     }
 
     public function jigsawPathName(): string
