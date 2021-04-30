@@ -141,7 +141,7 @@ Optionally, the package also generates an image copyright section for you.
 ```php
 Imprint::make()
     ->imageCopyrights([
-        Copyright::make('Author', 'Source', 'Internal Note'),
+        Copyright::make('Author', 'source.com', 'Internal Note'),
     ]),
 ```
 
@@ -150,11 +150,13 @@ Imprint::make()
 
 Optional. Use the `imageCopyrights()` method and the `Copyright`-object to define the image copyrights of the project. If the project contains Icons which you do not want to list each on it's own use the `IconCopyright`-object.
 
+**Please always use the domain of the source instead of its name.**
+
 (Note the example below assumes you use PHP 8.0 and [Named Arguments](https://stitcher.io/blog/php-8-named-arguments))
 
 ```php
-// © Picasso / Unsplash
-Copyright::make(author: 'Picasso', source: 'Unsplash', description: 'Hero Image');
+// © Picasso / unsplash.com
+Copyright::make(author: 'Picasso', source: 'unsplash.com', description: 'Hero Image');
 
 // Icons © thenounproject.com
 IconCopyright::make(source: 'thenounproject.com');
