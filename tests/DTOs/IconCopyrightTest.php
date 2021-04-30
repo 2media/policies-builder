@@ -2,8 +2,8 @@
 
 namespace Twomedia\PoliciesBuilder\Tests\DTOs;
 
-use Twomedia\PoliciesBuilder\DTOs\IconCopyright;
 use PHPUnit\Framework\TestCase;
+use Twomedia\PoliciesBuilder\DTOs\IconCopyright;
 
 class IconCopyrightTest extends TestCase
 {
@@ -14,5 +14,4 @@ class IconCopyrightTest extends TestCase
 
         $this->assertEquals("Icons © example.com", $copyright->__toString());
     }
-
 }

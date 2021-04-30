@@ -2,11 +2,11 @@
 
 namespace Twomedia\PoliciesBuilder\Tests\Policies;
 
+use PHPUnit\Framework\TestCase;
 use Stringable;
 use Twomedia\PoliciesBuilder\DTOs\Copyright;
 use Twomedia\PoliciesBuilder\DTOs\IconCopyright;
 use Twomedia\PoliciesBuilder\Policies\Imprint;
-use PHPUnit\Framework\TestCase;
 
 class ImprintTest extends TestCase
 {
