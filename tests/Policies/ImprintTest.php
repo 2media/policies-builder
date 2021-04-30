@@ -2,7 +2,7 @@
 
 namespace Twomedia\PoliciesBuilder\Tests\Policies;
 
-use Stringable;
+use Twomedia\PoliciesBuilder\Contracts\Stringable;
 use Twomedia\PoliciesBuilder\DTOs\Copyright;
 use Twomedia\PoliciesBuilder\DTOs\IconCopyright;
 use Twomedia\PoliciesBuilder\Policies\Imprint;

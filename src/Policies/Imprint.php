@@ -2,9 +2,9 @@
 
 namespace Twomedia\PoliciesBuilder\Policies;
 
-use Stringable;
 use Twomedia\PoliciesBuilder\Contracts\CanBeBuiltInJigsaw;
 use Twomedia\PoliciesBuilder\Contracts\Policy;
+use Twomedia\PoliciesBuilder\Contracts\Stringable;
 
 class Imprint implements Policy, CanBeBuiltInJigsaw
 {

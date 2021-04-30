@@ -2,7 +2,7 @@
 
 namespace Twomedia\PoliciesBuilder\DTOs;
 
-use Stringable;
+use Twomedia\PoliciesBuilder\Contracts\Stringable;
 
 class IconCopyright implements Stringable
 {
