@@ -201,8 +201,6 @@ ConditionsOfParticipation::make()
 
 #### Global Translations
 
-> TODO: Update this documentation section.
-
 Instead of defining the translations for the names of the policies ("Impressum", "Conditions d’utilisation") for the policies in your Jigsaw project, you can use the `GlobalTranslator` that comes with the package.
 
 The `GlobalTranslator` connects with our Webservice and gets the translations from a central place. If you follow these directions, the HTTP requests won't have any impact on the build time, as the requests/responses are cached for 24 hours on your machine.
@@ -226,13 +224,27 @@ Add the following line to your projects `config.php` to expose the `GlobalTransl
 In your templates, you can now use `transGlobal()` method to get translated strings for all the policies.
 
 ```blade
+{{ $page->transGlobal('global.imprint') }}
 {{ $page->transGlobal('global.terms') }}
+{{ $page->transGlobal('global.privacy') }}
+{{ $page->transGlobal('global.conditions_of_participation') }}
 ```
 
+**Available Translations Keys**
+
+The following translations keys are currently available:
+
+- `global.imprint`
+- `global.terms`
+- `global.privacy`
+- `global.conditions_of_participation`
+
+The key are defined by the Webservice app. You can find the German version of the available keys [here](https://github.com/2media/webservice-neo/blob/master/public/lang/de/policies.json).
 
 ### Statamic
 
 > The package currently doesn't support Statamic yet.
+
 
 ## Install the Package in GitHub Actions Workflows
 GitHub Actions Workflows of projects where this package is installed will fail to run `composer install` as the package is not public.
@@ -266,6 +278,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Credits
 
 - [Stefan Zweifel](https://github.com/stefanzweifel)
+- [Lena Fuchs](https://github.com/mlfuchs)
 - [All Contributors](../../contributors)
 
 ## License
