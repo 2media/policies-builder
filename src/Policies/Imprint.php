@@ -2,9 +2,9 @@
 
 namespace Twomedia\PoliciesBuilder\Policies;
 
+use Stringable;
 use Twomedia\PoliciesBuilder\Contracts\CanBeBuiltInJigsaw;
 use Twomedia\PoliciesBuilder\Contracts\Policy;
-use Twomedia\PoliciesBuilder\DTOs\Copyright;
 
 class Imprint implements Policy, CanBeBuiltInJigsaw
 {
@@ -18,7 +18,7 @@ class Imprint implements Policy, CanBeBuiltInJigsaw
     }
 
     /**
-     * @param array<Copyright> $copyrights
+     * @param array<Stringable> $copyrights
      * @return $this
      */
     public function imageCopyrights(array $copyrights)
@@ -31,8 +31,8 @@ class Imprint implements Policy, CanBeBuiltInJigsaw
     public function placeholders(): array
     {
         return [
-            'imageCopyrights' => array_map(function (Copyright $copyright) {
-                return $copyright->toString();
+            'imageCopyrights' => array_map(function (Stringable $copyright) {
+                return (string) $copyright;
             }, $this->placeholders['imageCopyrights']),
         ];
     }

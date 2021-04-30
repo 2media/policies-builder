@@ -12,7 +12,7 @@ class IconCopyrightTest extends TestCase
     {
         $copyright = IconCopyright::make("example.com");
 
-        $this->assertEquals("Icons © example.com", $copyright->toString());
+        $this->assertEquals("Icons © example.com", $copyright->__toString());
     }
 
 }

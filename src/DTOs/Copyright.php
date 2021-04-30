@@ -2,7 +2,9 @@
 
 namespace Twomedia\PoliciesBuilder\DTOs;
 
-class Copyright
+use Stringable;
+
+class Copyright implements Stringable
 {
     public string $author;
 
@@ -26,7 +28,7 @@ class Copyright
         );
     }
 
-    public function toString(): string
+    public function __toString()
     {
         return "© {$this->author} / {$this->source}";
     }

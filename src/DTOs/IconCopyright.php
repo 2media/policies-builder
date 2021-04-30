@@ -2,7 +2,9 @@
 
 namespace Twomedia\PoliciesBuilder\DTOs;
 
-class IconCopyright
+use Stringable;
+
+class IconCopyright implements Stringable
 {
     public string $source;
 
@@ -18,7 +20,7 @@ class IconCopyright
         );
     }
 
-    public function toString(): string
+    public function __toString()
     {
         return "Icons © $this->source";
     }
