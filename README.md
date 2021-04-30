@@ -146,14 +146,29 @@ Imprint::make()
 ```
 
 
-**‌`imageCopyrights([Copyright])`**
+**`imageCopyrights([Stringable])`**
 
-Optional. Use the `imageCopyrights()` method and the `Copyright`-object to define the image copyrights of the project.
+Optional. Use the `imageCopyrights()` method and the `Copyright`-object to define the image copyrights of the project. If the project contains Icons which you do not want to list each on it's own use the `IconCopyright`-object.
 
 (Note the example below assumes you use PHP 8.0 and [Named Arguments](https://stitcher.io/blog/php-8-named-arguments))
 
 ```php
+// © Picasso / Unsplash
 Copyright::make(author: 'Picasso', source: 'Unsplash', description: 'Hero Image');
+
+// Icons © thenounproject.com
+IconCopyright::make(source: 'thenounproject.com');
+```
+
+If non of the above classes solve the Copyright question for your project, feel free to create your own Copyright class. It just needs to implement the `Twomedia\PoliciesBuilder\Contracts\Stringable` interface – meaning just add a `__toString` method to your class.
+
+```php
+new class() implements Stringable {
+    public function __toString()
+    {
+        return 'Anonymous Copyright Class';
+    }
+}
 ```
 
 ##### Privacy Policy
@@ -174,7 +189,7 @@ To generate a "Conditions of Participation" policy for competition campaigns, ad
 ConditionsOfParticipation::make();
 ```
 
-**‌`endDate(string)`**
+**`endDate(string)`**
 
 Use the `endDate()` method to pass the end date of the competition to the policy.
 

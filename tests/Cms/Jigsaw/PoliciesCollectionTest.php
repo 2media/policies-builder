@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use Twomedia\PoliciesBuilder\Cms\Jigsaw\PoliciesCollection;
 use Twomedia\PoliciesBuilder\DTOs\Copyright;
+use Twomedia\PoliciesBuilder\DTOs\IconCopyright;
 use Twomedia\PoliciesBuilder\Policies\Imprint;
 use Twomedia\PoliciesBuilder\Policies\TermsOfService;
 use Twomedia\PoliciesBuilder\PoliciesConfiguration;
@@ -96,6 +97,7 @@ class PoliciesCollectionTest extends TestCase
                             Copyright::make('seventyfourimages', 'Envato Elements', 'Schreiner'),
                             Copyright::make('Vladdeep', 'Envato Elements', 'Sanitär'),
                             Copyright::make('Wavebreak Media Ltd', 'Bigstockphoto.com', 'Fenster'),
+                            IconCopyright::make('thenounproject.com'),
                         ]),
 
                     // These Policies are not implemented yet and the API Requests will fail!

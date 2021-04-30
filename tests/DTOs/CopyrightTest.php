@@ -12,6 +12,6 @@ class CopyrightTest extends TestCase
     {
         $copyright = Copyright::make('Picasso', 'Unsplash', 'Hero Image');
 
-        $this->assertEquals('© Picasso / Unsplash', $copyright->toString());
+        $this->assertEquals('© Picasso / Unsplash', $copyright->__toString());
     }
 }
