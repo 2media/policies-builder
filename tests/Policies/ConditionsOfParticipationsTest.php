@@ -19,12 +19,12 @@ class ConditionsOfParticipationsTest extends TestCase
     public function can_set_end_date_onf_conditions_of_participation()
     {
         $policy = ConditionsOfParticipation::make()
-            ->endDate('31.12.2021');
+            ->closingDate('31.12.2021');
 
         $this->assertNotEmpty($policy->placeholders());
 
         $this->assertEquals([
-            'end_date' => '31.12.2021',
+            'closing_date' => '31.12.2021',
         ], $policy->placeholders());
     }
 }
