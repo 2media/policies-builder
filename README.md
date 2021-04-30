@@ -191,13 +191,13 @@ To generate a "Conditions of Participation" policy for competition campaigns, ad
 ConditionsOfParticipation::make();
 ```
 
-**`endDate(string)`**
+**`closingDate(string)`**
 
-Use the `endDate()` method to pass the end date of the competition to the policy.
+Use the `closingDate()` method to pass the end date of the competition to the policy.
 
 ```php
 ConditionsOfParticipation::make()
-    ->endDate('31.12.2030');
+    ->closingDate('31.12.2030');
 ```
 
 

@@ -16,9 +16,9 @@ class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
         return new self();
     }
 
-    public function endDate(string $endDate): self
+    public function closingDate(string $closingDate): self
     {
-        $this->placeholders['end_date'] = $endDate;
+        $this->placeholders['closing_date'] = $closingDate;
 
         return $this;
     }
