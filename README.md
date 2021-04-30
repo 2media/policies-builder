@@ -234,6 +234,17 @@ In your templates, you can now use `transGlobal()` method to get translated stri
 
 > The package currently doesn't support Statamic yet.
 
+## Install the Package in GitHub Actions Workflows
+GitHub Actions Workflows of projects where this package is installed will fail to run `composer install` as the package is not public.
+To solve this, add the following lines to your GitHub Actions Workflow YAML file **before** `composer install` is executed. ([Example Workflow](https://github.com/2media/jigsaw-starterkit/blob/7197af8ecb2417c01087a87b2b356d5f7a35cf12/.github/workflows/integrate.yml#L16-L34))
+
+```yaml
+-   name: Setup composer auth.json
+    run: composer config github-oauth.github.com ${{ secrets.COMPOSER_GITHUB_TOKEN }}
+```
+
+The `run` command will use a Github Private Access Token – issued by [2media-bot](https://github.com/2media-bot) – to authenticate composer with our private GitHub repositories. (More about this in [the composer docs](https://getcomposer.org/doc/articles/authentication-for-private-packages.md#github-oauth))
+
 ## Testing
 
 ```shell
