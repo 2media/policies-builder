@@ -16,7 +16,7 @@ class ConditionsOfParticipationsTest extends TestCase
     }
 
     /** @test */
-    public function can_set_end_date_onf_conditions_of_participation()
+    public function can_set_closing_date_on_conditions_of_participation()
     {
         $policy = ConditionsOfParticipation::make()
             ->closingDate('31.12.2021');
