@@ -34,7 +34,7 @@ class WebserviceClientTest extends TestCase
     /** @test */
     public function it_throws_custom_http_exception_if_request_fails()
     {
-        // $this->expectException(WebserviceClientException::class);
+        $this->expectException(WebserviceClientException::class);
 
         $payload = [
             'brand' => '::brand-does-not-exist::',
