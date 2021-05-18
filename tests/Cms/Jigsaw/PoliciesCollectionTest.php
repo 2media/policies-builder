@@ -71,6 +71,31 @@ class PoliciesCollectionTest extends TestCase
         $this->assertEquals("Mentions légales", $imprintPolicies[3]['meta_title']);
     }
 
+    /** @test */
+    public function allows_domain_in_imprint_to_be_overwritten()
+    {
+        $config = collect([
+            'transGlobal' => function ($page, $key, array $replace = []) {
+                return $this->container->make(GlobalTranslator::class)->trans($page, $key, $replace);
+            },
+
+            'policies' => PoliciesConfiguration::make()
+                ->languages(['de'])
+                ->domain('onlineanfrage.ch')
+                ->brand('2media')
+                ->types([
+                    Imprint::make()
+                        // This is technically not a domain, but some pages of us point to a certain URL in the imprint
+                        ->domain('different-domain.ch/kontakt')
+                ]),
+        ]);
+
+        $result = (new PoliciesCollection())->generate($config);
+
+        $this->assertStringNotContainsString('onlineanfrage.ch', $result->first()['content']);
+        $this->assertStringContainsString('different-domain.ch/kontakt', $result->first()['content']);
+    }
+
     protected function getJigsawConfiguration(): Collection
     {
         return collect([

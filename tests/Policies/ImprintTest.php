@@ -33,4 +33,15 @@ class ImprintTest extends TestCase
             ],
         ], $imprint->placeholders());
     }
+
+    /** @test */
+    public function can_overwrite_domain_on_imprint_level()
+    {
+        $imprint = Imprint::make()
+            ->domain('example.com');
+
+        $this->assertEquals([
+            'domain' => 'example.com',
+        ], $imprint->placeholders());
+    }
 }
