@@ -28,13 +28,28 @@ class Imprint implements Policy, CanBeBuiltInJigsaw
         return $this;
     }
 
+    public function domain(string $domain): self
+    {
+        $this->placeholders['domain'] = $domain;
+
+        return $this;
+    }
+
     public function placeholders(): array
     {
-        return [
-            'imageCopyrights' => array_map(function (Stringable $copyright) {
+        $data = [];
+
+        if (array_key_exists('imageCopyrights', $this->placeholders)) {
+            $data['imageCopyrights'] = array_map(function (Stringable $copyright) {
                 return (string) $copyright;
-            }, $this->placeholders['imageCopyrights']),
-        ];
+            }, $this->placeholders['imageCopyrights']);
+        }
+
+        if (array_key_exists('domain', $this->placeholders)) {
+            $data['domain'] = $this->placeholders['domain'];
+        }
+
+        return $data;
     }
 
     public function type(): string
