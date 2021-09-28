@@ -259,6 +259,27 @@ To solve this, add the following lines to your GitHub Actions Workflow YAML file
 
 The `run` command will use a Github Private Access Token – issued by [2media-bot](https://github.com/2media-bot) – to authenticate composer with our private GitHub repositories. (More about this in [the composer docs](https://getcomposer.org/doc/articles/authentication-for-private-packages.md#github-oauth))
 
+## Install local version in a project
+
+If you're working on the package locally and want to test thing in a demo project you can use the [composer path-repository format](https://getcomposer.org/doc/05-repositories.md#path).
+Add the following snippet to the `composer.json` in your demo project.
+
+```json
+{
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/path/to/policies-builder/",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+}
+```
+
+And "install" the package with `composer require 2media/policies-builder` or `composer update 2media/policies-builder`. The package should now be symlinked in your demo project.
+
 ## Testing
 
 ```shell
