@@ -21,6 +21,7 @@ class GlobalTranslator
         'sr',
         'sq',
         'tr',
+        'pl',
     ];
 
     const SECONDS_TO_CACHE_LOCALE_FILES = 60 * 60 * 24;
