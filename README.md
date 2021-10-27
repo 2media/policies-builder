@@ -99,6 +99,7 @@ We currently support:
 - `sr` (Serbian)
 - `sq` (Albanian)
 - `tr` (Turkish)
+- `pl` (Polish)
 
 ##### `domain(string)`
 
