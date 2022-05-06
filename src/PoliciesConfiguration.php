@@ -3,6 +3,7 @@
 namespace Twomedia\PoliciesBuilder;
 
 use ArrayAccess;
+use ReturnTypeWillChange;
 
 class PoliciesConfiguration implements ArrayAccess
 {
@@ -62,6 +63,7 @@ class PoliciesConfiguration implements ArrayAccess
      * @param  mixed  $key
      * @return bool
      */
+    #[ReturnTypeWillChange]
     public function offsetExists($key)
     {
         return array_key_exists($key, $this->config);
@@ -73,6 +75,7 @@ class PoliciesConfiguration implements ArrayAccess
      * @param  mixed  $key
      * @return mixed
      */
+    #[ReturnTypeWillChange]
     public function offsetGet($key)
     {
         return $this->config[$key];
@@ -85,6 +88,7 @@ class PoliciesConfiguration implements ArrayAccess
      * @param  mixed  $value
      * @return void
      */
+    #[ReturnTypeWillChange]
     public function offsetSet($key, $value)
     {
         if (is_null($key)) {
@@ -100,6 +104,7 @@ class PoliciesConfiguration implements ArrayAccess
      * @param  string  $key
      * @return void
      */
+    #[ReturnTypeWillChange]
     public function offsetUnset($key)
     {
         unset($this->config[$key]);
