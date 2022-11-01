@@ -9,7 +9,7 @@ use Twomedia\PoliciesBuilder\Contracts\Stringable;
 class Imprint implements Policy, CanBeBuiltInJigsaw
 {
     public array $placeholders = [
-        'imageCopyrights' => []
+        'imageCopyrights' => [],
     ];
 
     public static function make(): self
