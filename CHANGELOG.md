@@ -4,13 +4,24 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/2media/policies-builder/compare/v1.4.0...HEAD)
+## [Unreleased](https://github.com/2media/policies-builder/compare/v1.5.0...HEAD)
 
 > The CHANGELOG is auto-generated with `release-drafter`.
 Check all currently unreleased changed on the releases page:
 https://github.com/2media/policies-builder/releases
 
 <!-- Please do not add single changes manually to the CHANGELOG. -->
+## [v1.5.0](https://github.com/2media/policies-builder/compare/v1.4.0...v1.5.0) - 2022-11-02
+
+### Added
+
+- Add Support for illuminate v9 Components ([#13](https://github.com/2media/policies-builder/pull/13))
+- Add Support for PHP 8.2 ([#11](https://github.com/2media/policies-builder/pull/11))
+
+### Changed
+
+- Drop Support for PHP 7.4 and Illuminate v7 Components ([#14](https://github.com/2media/policies-builder/pull/14))
+
 ## [v1.4.0](https://github.com/2media/policies-builder/compare/v1.3.0...v1.4.0) - 2022-05-18
 
 ## Changed
