@@ -25,6 +25,7 @@ class PolicyToInMemoryJigsawPageTest extends TestCase
         $this->assertEquals('de', $result['lang']);
         $this->assertEquals('de', $result['locale']);
         $this->assertEquals('Imprint', $result['meta_title']);
+        $this->assertEquals('', $result['meta_description']);
         $this->assertEquals($html, $result['content']);
         $this->assertEquals('index-de-imprint', $result['filename']);
         $this->assertEquals('imprint', $result['policy_type']);
