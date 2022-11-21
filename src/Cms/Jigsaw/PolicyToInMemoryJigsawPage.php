@@ -13,6 +13,8 @@ class PolicyToInMemoryJigsawPage
             'lang' => $language,
             'locale' => $language,
             'meta_title' => $metaTitle,
+            'meta_description' => '',
+            'meta_description_key' => '',
             'content' => $html,
 
             // Unique InMemory Filename

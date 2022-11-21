@@ -79,7 +79,7 @@ class PoliciesCollection
     /**
      * @return Closure
      */
-    private function translationFunction(): Closure
+    private function translationFunction(): ?Closure
     {
         return $this->jigsawConfig->get('transGlobal');
     }
