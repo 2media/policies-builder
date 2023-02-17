@@ -33,4 +33,14 @@ class ImprintTest extends TestCase
             ],
         ], $imprint->placeholders());
     }
+
+    /** @test */
+    public function returns_an_empty_array_if_image_copyright_is_not_set()
+    {
+        $imprint = Imprint::make();
+
+        $this->assertEquals([
+            'imageCopyrights' => [],
+        ], $imprint->placeholders());
+    }
 }
