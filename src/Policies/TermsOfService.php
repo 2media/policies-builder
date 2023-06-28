@@ -24,18 +24,22 @@ class TermsOfService implements Policy, CanBeBuiltInJigsaw
 
     public function inCooperationWith(CooperationPartner $partner): self
     {
-        $this->placeholders['cooperation_partner_legal_name'] = $partner->legalName;
-        $this->placeholders['cooperation_partner_name'] = $partner->name;
-        $this->placeholders['cooperation_partner_url'] = $partner->url;
+        $this->placeholders['cooperation_partner'] = [
+            'legal_name' => $partner->legalName,
+            'name' => $partner->name,
+            'url' => $partner->url,
+        ];
 
         return $this;
     }
 
     public function onBehalfOf(CooperationPartner $partner): self
     {
-        $this->placeholders['behalf_of_legal_name'] = $partner->legalName;
-        $this->placeholders['behalf_of_name'] = $partner->name;
-        $this->placeholders['behalf_of_url'] = $partner->url;
+        $this->placeholders['behalf_of'] = [
+            'legal_name' => $partner->legalName,
+            'name' => $partner->name,
+            'url' => $partner->url,
+        ];
 
         return $this;
     }
