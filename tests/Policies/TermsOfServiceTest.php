@@ -30,7 +30,7 @@ class TermsOfServiceTest extends TestCase
     }
 
     /** @test */
-    public function populates_on_behalt_of_placeholders_if_on_behalt_of_mehtod_is_used(): void
+    public function populates_on_behalf_of_placeholders_if_on_behalf_of_method_is_used(): void
     {
         $termsOfService = TermsOfService::make()
             ->onBehalfOf(CooperationPartner::make('Legal Name', 'Name', 'https://example.com'));
