@@ -23,9 +23,11 @@ class TermsOfServiceTest extends TestCase
             ->inCooperationWith(CooperationPartner::make('Legal Name', 'Name', 'https://example.com'));
 
         $this->assertEquals([
-            'cooperation_partner_legal_name' => 'Legal Name',
-            'cooperation_partner_name' => 'Name',
-            'cooperation_partner_url' => 'https://example.com',
+            'cooperation_partner' => [
+                'legal_name' => 'Legal Name',
+                'name' => 'Name',
+                'url' => 'https://example.com',
+            ],
         ], $termsOfService->placeholders());
     }
 
@@ -36,9 +38,11 @@ class TermsOfServiceTest extends TestCase
             ->onBehalfOf(CooperationPartner::make('Legal Name', 'Name', 'https://example.com'));
 
         $this->assertEquals([
-            'behalf_of_legal_name' => 'Legal Name',
-            'behalf_of_name' => 'Name',
-            'behalf_of_url' => 'https://example.com',
+            'behalf_of' => [
+                'legal_name' => 'Legal Name',
+                'name' => 'Name',
+                'url' => 'https://example.com',
+            ],
         ], $termsOfService->placeholders());
     }
 }
