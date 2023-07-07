@@ -132,7 +132,33 @@ By adding the following policy to the `type()` method of the `PoliciesConfigurat
 TermsOfService::make(),
 ```
 
-*There are currently no specific configuration options available for `TermsOfService`.*
+If the website is operated in cooperation with a different company, use the `inCooperationWith()` method to indicate this in the terms of service. (Note that not all variants support this feature.)
+
+```php
+use Twomedia\PoliciesBuilder\DTOs\CooperationPartner;
+use Twomedia\PoliciesBuilder\Policies\TermsOfService;
+
+TermsOfService::make()
+    ->inCooperationWith(CooperationPartner::make(
+        'Legal Name',
+        'Name',
+        'https://example.com'
+    ));
+```
+
+If the website is operated on behalf of a different company, use the `onBehalfOf()` method to indicate this in the terms of service. (Note that not all variants support this feature).
+
+```php
+use Twomedia\PoliciesBuilder\DTOs\CooperationPartner;
+use Twomedia\PoliciesBuilder\Policies\TermsOfService;
+
+TermsOfService::make()
+    ->onBehalfOf(CooperationPartner::make(
+        'Legal Name',
+        'Name',
+        'https://example.com'
+    ));
+```
 
 ##### Imprint
 
