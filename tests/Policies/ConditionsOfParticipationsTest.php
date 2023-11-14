@@ -3,8 +3,8 @@
 namespace Twomedia\PoliciesBuilder\Tests\Policies;
 
 use PHPUnit\Framework\TestCase;
-use Twomedia\PoliciesBuilder\Policies\ConditionsOfParticipation;
 use Twomedia\PoliciesBuilder\DTOs\CooperationPartner;
+use Twomedia\PoliciesBuilder\Policies\ConditionsOfParticipation;
 
 class ConditionsOfParticipationsTest extends TestCase
 {
