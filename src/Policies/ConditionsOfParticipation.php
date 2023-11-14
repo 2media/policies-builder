@@ -4,6 +4,7 @@ namespace Twomedia\PoliciesBuilder\Policies;
 
 use Twomedia\PoliciesBuilder\Contracts\CanBeBuiltInJigsaw;
 use Twomedia\PoliciesBuilder\Contracts\Policy;
+use Twomedia\PoliciesBuilder\DTOs\CooperationPartner;
 
 class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
 {
