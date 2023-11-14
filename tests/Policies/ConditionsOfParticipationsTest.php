@@ -4,6 +4,7 @@ namespace Twomedia\PoliciesBuilder\Tests\Policies;
 
 use PHPUnit\Framework\TestCase;
 use Twomedia\PoliciesBuilder\Policies\ConditionsOfParticipation;
+use Twomedia\PoliciesBuilder\DTOs\CooperationPartner;
 
 class ConditionsOfParticipationsTest extends TestCase
 {
