@@ -42,4 +42,15 @@ class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
     {
         return $this->placeholders;
     }
+
+    public function onBehalfOf(CooperationPartner $partner): self
+    {
+        $this->placeholders['behalf_of'] = [
+            'legal_name' => $partner->legalName,
+            'name' => $partner->name,
+            'url' => $partner->url,
+        ];
+
+        return $this;
+    }
 }

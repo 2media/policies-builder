@@ -27,4 +27,19 @@ class ConditionsOfParticipationsTest extends TestCase
             'closing_date' => '31.12.2021',
         ], $policy->placeholders());
     }
+
+    /** @test */
+    public function populates_on_behalf_of_placeholders_if_on_behalf_of_method_is_used(): void
+    {
+        $policy = ConditionsOfParticipation::make()
+            ->onBehalfOf(CooperationPartner::make('Legal Name', 'Name', 'https://example.com'));
+
+        $this->assertEquals([
+            'behalf_of' => [
+                'legal_name' => 'Legal Name',
+                'name' => 'Name',
+                'url' => 'https://example.com',
+            ],
+        ], $policy->placeholders());
+    }
 }
