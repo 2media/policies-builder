@@ -8,6 +8,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use Twomedia\PoliciesBuilder\Cms\Jigsaw\PoliciesCollection;
+use Twomedia\PoliciesBuilder\DTOs\CooperationPartner;
 use Twomedia\PoliciesBuilder\DTOs\Copyright;
 use Twomedia\PoliciesBuilder\DTOs\IconCopyright;
 use Twomedia\PoliciesBuilder\Policies\Imprint;
@@ -86,8 +87,14 @@ class PoliciesCollectionTest extends TestCase
                 ->languages(['de', 'fr'])
                 ->domain('onlineanfrage.ch')
                 ->brand('2media')
+                ->variant('services')
                 ->types([
-                    TermsOfService::make(),
+                    TermsOfService::make()
+                        ->inCooperationWith(CooperationPartner::make(
+                            'Swisscom Directories AG',
+                            'Swisscom Directories',
+                            'https://www.renovero.ch/'
+                        )),
                     Imprint::make()
                         ->imageCopyrights([
                             Copyright::make('2mmedia', 'Adobe Stock', 'Klavierumzug'),

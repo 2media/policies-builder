@@ -4,6 +4,7 @@ namespace Twomedia\PoliciesBuilder\Policies;
 
 use Twomedia\PoliciesBuilder\Contracts\CanBeBuiltInJigsaw;
 use Twomedia\PoliciesBuilder\Contracts\Policy;
+use Twomedia\PoliciesBuilder\DTOs\CooperationPartner;
 
 class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
 {
@@ -41,5 +42,16 @@ class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
     public function placeholders(): array
     {
         return $this->placeholders;
+    }
+
+    public function onBehalfOf(CooperationPartner $partner): self
+    {
+        $this->placeholders['behalf_of'] = [
+            'legal_name' => $partner->legalName,
+            'name' => $partner->name,
+            'url' => $partner->url,
+        ];
+
+        return $this;
     }
 }
