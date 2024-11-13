@@ -27,7 +27,8 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring
-          coverage: none
+          ini-values: pcov.directory=src
+          coverage: pcov
 
       - name: Setup problem matchers
         run: |
