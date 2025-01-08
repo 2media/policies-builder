@@ -6,18 +6,11 @@ use Twomedia\PoliciesBuilder\Contracts\Stringable;
 
 class Copyright implements Stringable
 {
-    public string $author;
-
-    public string $source;
-
-    public ?string $description;
-
-    public function __construct(string $author, string $source, ?string $description = null)
-    {
-        $this->author = $author;
-        $this->source = $source;
-        $this->description = $description;
-    }
+    public function __construct(
+        public string $author,
+        public string $source,
+        public ?string $description = null
+    ) {}
 
     public static function make(string $author, string $source, ?string $description = null): Copyright
     {
@@ -28,7 +21,7 @@ class Copyright implements Stringable
         );
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return "© {$this->author} / {$this->source}";
     }

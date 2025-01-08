@@ -31,9 +31,7 @@ class Imprint implements CanBeBuiltInJigsaw, Policy
     public function placeholders(): array
     {
         return [
-            'imageCopyrights' => array_map(function (Stringable $copyright) {
-                return (string) $copyright;
-            }, $this->placeholders['imageCopyrights']),
+            'imageCopyrights' => array_map(fn (Stringable $copyright) => (string) $copyright, $this->placeholders['imageCopyrights']),
         ];
     }
 

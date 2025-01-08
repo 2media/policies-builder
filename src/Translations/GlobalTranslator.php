@@ -26,7 +26,7 @@ class GlobalTranslator
 
     const SECONDS_TO_CACHE_LOCALE_FILES = 60 * 60 * 24;
 
-    private ?CacheManager $cacheManager;
+    private readonly ?CacheManager $cacheManager;
 
     public function __construct(?CacheManager $cacheManager = null)
     {

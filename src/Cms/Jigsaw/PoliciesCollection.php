@@ -22,15 +22,13 @@ class PoliciesCollection
         $this->policiesConfiguration = $config->get('policies');
 
         return $this->getLanguagesToGenerate()
-            ->map(function (string $language) {
-                return $this->getPoliciesToGenerate()->map(function (Policy $policy) use ($language) {
-                    $response = (new WebserviceClient)->getPolicyForPayload($this->getPayload($policy, $language));
+            ->map(fn (string $language) => $this->getPoliciesToGenerate()->map(function (Policy $policy) use ($language) {
+                $response = (new WebserviceClient)->getPolicyForPayload($this->getPayload($policy, $language));
 
-                    $metaTitle = $this->getTranslatedMetaTitle($language, $policy);
+                $metaTitle = $this->getTranslatedMetaTitle($language, $policy);
 
-                    return $this->generateInMemoryJigsawPage($policy, $response, $language, $metaTitle);
-                });
-            })
+                return $this->generateInMemoryJigsawPage($policy, $response, $language, $metaTitle);
+            }))
             ->flatten(1);
     }
 

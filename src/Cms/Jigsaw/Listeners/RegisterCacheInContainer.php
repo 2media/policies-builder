@@ -25,8 +25,6 @@ class RegisterCacheInContainer
 
         $container['files'] = new Filesystem;
 
-        $container->singleton(CacheManager::class, function () use ($container) {
-            return new CacheManager($container);
-        });
+        $container->singleton(CacheManager::class, fn () => new CacheManager($container));
     }
 }

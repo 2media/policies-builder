@@ -38,9 +38,7 @@ class PoliciesCollectionTest extends TestCase
         $cacheManager = new CacheManager($container);
 
         // Register CacheManager in Container
-        $container->singleton(CacheManager::class, function () use ($cacheManager) {
-            return $cacheManager;
-        });
+        $container->singleton(CacheManager::class, fn () => $cacheManager);
 
         $this->container = $container;
     }
@@ -54,9 +52,7 @@ class PoliciesCollectionTest extends TestCase
 
         $this->assertCount(4, $result);
 
-        $termsOfServicePolicies = $result->filter(function ($policy) {
-            return $policy['policy_type'] === 'terms';
-        });
+        $termsOfServicePolicies = $result->filter(fn ($policy) => $policy['policy_type'] === 'terms');
 
         $this->assertCount(2, $termsOfServicePolicies);
         $this->assertEquals('Nutzungsbedingungen', $termsOfServicePolicies[0]['meta_title']);
@@ -64,9 +60,7 @@ class PoliciesCollectionTest extends TestCase
         $this->assertEquals('', $termsOfServicePolicies[0]['meta_description']);
         $this->assertEquals('', $termsOfServicePolicies[2]['meta_description']);
 
-        $imprintPolicies = $result->filter(function ($policy) {
-            return $policy['policy_type'] === 'imprint';
-        });
+        $imprintPolicies = $result->filter(fn ($policy) => $policy['policy_type'] === 'imprint');
 
         $this->assertCount(2, $imprintPolicies);
         $this->assertEquals('Impressum', $imprintPolicies[1]['meta_title']);
@@ -78,9 +72,7 @@ class PoliciesCollectionTest extends TestCase
     protected function getJigsawConfiguration(): Collection
     {
         return collect([
-            'transGlobal' => function ($page, $key, array $replace = []) {
-                return $this->container->make(GlobalTranslator::class)->trans($page, $key, $replace);
-            },
+            'transGlobal' => fn ($page, $key, array $replace = []) => $this->container->make(GlobalTranslator::class)->trans($page, $key, $replace),
 
             'policies' => PoliciesConfiguration::make()
                 ->languages(['de', 'fr'])

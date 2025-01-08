@@ -31,9 +31,7 @@ class GlobalTranslatorTest extends TestCase
         $cacheManager = new CacheManager($container);
 
         // Register CacheManager in Container
-        $container->singleton(CacheManager::class, function () use ($cacheManager) {
-            return $cacheManager;
-        });
+        $container->singleton(CacheManager::class, fn () => $cacheManager);
 
         $this->container = $container;
     }
