@@ -31,7 +31,7 @@
     },
     "require-dev": {
         "laravel/pint": "^1.19",
-        "phpunit/phpunit": "^10.0",
+        "phpunit/phpunit": "^11.0",
         "rector/rector": "^2.0",
         "tightenco/jigsaw": "^1.3"
     },
