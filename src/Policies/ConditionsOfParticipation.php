@@ -6,7 +6,7 @@ use Twomedia\PoliciesBuilder\Contracts\CanBeBuiltInJigsaw;
 use Twomedia\PoliciesBuilder\Contracts\Policy;
 use Twomedia\PoliciesBuilder\DTOs\CooperationPartner;
 
-class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
+class ConditionsOfParticipation implements CanBeBuiltInJigsaw, Policy
 {
     public array $placeholders = [
         //
@@ -14,7 +14,7 @@ class ConditionsOfParticipation implements Policy, CanBeBuiltInJigsaw
 
     public static function make(): self
     {
-        return new self();
+        return new self;
     }
 
     public function closingDate(string $closingDate): self

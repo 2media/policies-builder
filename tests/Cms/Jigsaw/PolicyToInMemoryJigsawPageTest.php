@@ -14,10 +14,9 @@ class PolicyToInMemoryJigsawPageTest extends TestCase
         $imprint = Imprint::make();
         $language = 'de';
         $metaTitle = 'Imprint';
-        $html = "<h1>Hello World</h1>";
+        $html = '<h1>Hello World</h1>';
 
-        $result = (new PolicyToInMemoryJigsawPage())->generate($imprint, $html, $language, $metaTitle);
-
+        $result = (new PolicyToInMemoryJigsawPage)->generate($imprint, $html, $language, $metaTitle);
 
         $this->assertIsArray($result);
 

@@ -6,7 +6,7 @@ use Twomedia\PoliciesBuilder\Contracts\CanBeBuiltInJigsaw;
 use Twomedia\PoliciesBuilder\Contracts\Policy;
 use Twomedia\PoliciesBuilder\Contracts\Stringable;
 
-class Imprint implements Policy, CanBeBuiltInJigsaw
+class Imprint implements CanBeBuiltInJigsaw, Policy
 {
     public array $placeholders = [
         'imageCopyrights' => [],
@@ -14,11 +14,11 @@ class Imprint implements Policy, CanBeBuiltInJigsaw
 
     public static function make(): self
     {
-        return new self();
+        return new self;
     }
 
     /**
-     * @param array<Stringable> $copyrights
+     * @param  array<Stringable>  $copyrights
      * @return $this
      */
     public function imageCopyrights(array $copyrights)
@@ -31,9 +31,7 @@ class Imprint implements Policy, CanBeBuiltInJigsaw
     public function placeholders(): array
     {
         return [
-            'imageCopyrights' => array_map(function (Stringable $copyright) {
-                return (string) $copyright;
-            }, $this->placeholders['imageCopyrights']),
+            'imageCopyrights' => array_map(fn (Stringable $copyright) => (string) $copyright, $this->placeholders['imageCopyrights']),
         ];
     }
 

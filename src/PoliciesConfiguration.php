@@ -14,7 +14,7 @@ class PoliciesConfiguration implements ArrayAccess
 
     public static function make(): self
     {
-        return new self();
+        return new self;
     }
 
     public function domain(string $domain): self

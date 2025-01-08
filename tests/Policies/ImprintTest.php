@@ -17,7 +17,8 @@ class ImprintTest extends TestCase
             ->imageCopyrights([
                 Copyright::make('Picasso', 'example.com'),
                 IconCopyright::make('thenounproject.com'),
-                new class() implements Stringable {
+                new class implements Stringable
+                {
                     public function __toString()
                     {
                         return 'Anonymous Copyright Class';

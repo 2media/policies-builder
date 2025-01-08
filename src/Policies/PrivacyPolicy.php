@@ -5,7 +5,7 @@ namespace Twomedia\PoliciesBuilder\Policies;
 use Twomedia\PoliciesBuilder\Contracts\CanBeBuiltInJigsaw;
 use Twomedia\PoliciesBuilder\Contracts\Policy;
 
-class PrivacyPolicy implements Policy, CanBeBuiltInJigsaw
+class PrivacyPolicy implements CanBeBuiltInJigsaw, Policy
 {
     public array $placeholders = [
         //
@@ -13,7 +13,7 @@ class PrivacyPolicy implements Policy, CanBeBuiltInJigsaw
 
     public static function make(): self
     {
-        return new self();
+        return new self;
     }
 
     public function placeholders(): array

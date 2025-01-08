@@ -6,12 +6,7 @@ use Twomedia\PoliciesBuilder\Contracts\Stringable;
 
 class IconCopyright implements Stringable
 {
-    public string $source;
-
-    public function __construct(string $source)
-    {
-        $this->source = $source;
-    }
+    public function __construct(public string $source) {}
 
     public static function make(string $source): IconCopyright
     {
@@ -20,7 +15,7 @@ class IconCopyright implements Stringable
         );
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return "Icons © $this->source";
     }

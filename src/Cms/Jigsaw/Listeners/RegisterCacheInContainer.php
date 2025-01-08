@@ -19,14 +19,12 @@ class RegisterCacheInContainer
             'cache.default' => 'file',
             'cache.stores.file' => [
                 'driver' => 'file',
-                'path' => __DIR__ . '/storage/cache',
+                'path' => __DIR__.'/storage/cache',
             ],
         ]));
 
         $container['files'] = new Filesystem;
 
-        $container->singleton(CacheManager::class, function () use ($container) {
-            return new CacheManager($container);
-        });
+        $container->singleton(CacheManager::class, fn () => new CacheManager($container));
     }
 }

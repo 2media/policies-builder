@@ -1,0 +1,11 @@
+name: laravel-pint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  laravel-pint:
+    uses: 2media/reusable-actions-workflows/.github/workflows/laravel-pint-fixer.yml@main
