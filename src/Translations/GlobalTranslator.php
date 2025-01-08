@@ -26,16 +26,14 @@ class GlobalTranslator
 
     const SECONDS_TO_CACHE_LOCALE_FILES = 60 * 60 * 24;
 
-    /**
-     * @var CacheManager|null
-     */
     private ?CacheManager $cacheManager;
 
-    public function __construct(CacheManager $cacheManager = null)
+    public function __construct(?CacheManager $cacheManager = null)
     {
         if ($cacheManager === null) {
             /**
              * @var CacheManager $cache
+             *
              * @psalm-suppress UndefinedClass
              */
             $cacheManager = Container::getInstance()->make(CacheManager::class);
@@ -45,9 +43,6 @@ class GlobalTranslator
     }
 
     /**
-     * @param $page
-     * @param string $key
-     * @param array $replace
      * @return array|string
      */
     public function trans($page, string $key, array $replace = [])
@@ -73,22 +68,14 @@ class GlobalTranslator
         return $translator->get($key, $replace);
     }
 
-    /**
-     * @param string $language
-     * @return array
-     */
     protected function fetchLocaleStringsForLanguage(string $language): array
     {
         return json_decode(file_get_contents("https://v2.webservice.apy.ch/lang/{$language}/policies.json"), true);
     }
 
-    /**
-     * @param string $languageToTranslateTo
-     * @return Translator
-     */
     protected function setupTranslator(string $languageToTranslateTo): Translator
     {
-        $filesystem = new Filesystem();
+        $filesystem = new Filesystem;
         $fileLoader = new FileLoader($filesystem, '.');
 
         return new Translator($fileLoader, $languageToTranslateTo);

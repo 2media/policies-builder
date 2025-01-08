@@ -12,14 +12,14 @@ class Copyright implements Stringable
 
     public ?string $description;
 
-    public function __construct(string $author, string $source, string $description = null)
+    public function __construct(string $author, string $source, ?string $description = null)
     {
         $this->author = $author;
         $this->source = $source;
         $this->description = $description;
     }
 
-    public static function make(string $author, string $source, string $description = null): Copyright
+    public static function make(string $author, string $source, ?string $description = null): Copyright
     {
         return new self(
             $author,

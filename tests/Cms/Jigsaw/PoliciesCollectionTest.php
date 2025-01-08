@@ -30,7 +30,7 @@ class PoliciesCollectionTest extends TestCase
             'cache.default' => 'file',
             'cache.stores.file' => [
                 'driver' => 'file',
-                'path' => __DIR__ . '/../../../storage/cache',
+                'path' => __DIR__.'/../../../storage/cache',
             ],
         ]);
         $container['files'] = new Filesystem;
@@ -50,7 +50,7 @@ class PoliciesCollectionTest extends TestCase
     {
         $config = $this->getJigsawConfiguration();
 
-        $result = (new PoliciesCollection())->generate($config);
+        $result = (new PoliciesCollection)->generate($config);
 
         $this->assertCount(4, $result);
 
@@ -59,21 +59,20 @@ class PoliciesCollectionTest extends TestCase
         });
 
         $this->assertCount(2, $termsOfServicePolicies);
-        $this->assertEquals("Nutzungsbedingungen", $termsOfServicePolicies[0]['meta_title']);
+        $this->assertEquals('Nutzungsbedingungen', $termsOfServicePolicies[0]['meta_title']);
         $this->assertEquals("Conditions d'utilisation", $termsOfServicePolicies[2]['meta_title']);
-        $this->assertEquals("", $termsOfServicePolicies[0]['meta_description']);
-        $this->assertEquals("", $termsOfServicePolicies[2]['meta_description']);
-
+        $this->assertEquals('', $termsOfServicePolicies[0]['meta_description']);
+        $this->assertEquals('', $termsOfServicePolicies[2]['meta_description']);
 
         $imprintPolicies = $result->filter(function ($policy) {
             return $policy['policy_type'] === 'imprint';
         });
 
         $this->assertCount(2, $imprintPolicies);
-        $this->assertEquals("Impressum", $imprintPolicies[1]['meta_title']);
-        $this->assertEquals("Mentions légales", $imprintPolicies[3]['meta_title']);
-        $this->assertEquals("", $imprintPolicies[1]['meta_description']);
-        $this->assertEquals("", $imprintPolicies[3]['meta_description']);
+        $this->assertEquals('Impressum', $imprintPolicies[1]['meta_title']);
+        $this->assertEquals('Mentions légales', $imprintPolicies[3]['meta_title']);
+        $this->assertEquals('', $imprintPolicies[1]['meta_description']);
+        $this->assertEquals('', $imprintPolicies[3]['meta_description']);
     }
 
     protected function getJigsawConfiguration(): Collection
@@ -113,13 +112,13 @@ class PoliciesCollectionTest extends TestCase
 
                     // These Policies are not implemented yet and the API Requests will fail!
                     // PrivacyPolicy::make(),
-                        // ->usesSnapchatPixel()
-                        // ->usesFacebookPixel()
-                        // ->usesGoogleExperiments()
-                        // ->usesTypeForm()
-                        // ->usesGoogleAnalytics()
+                    // ->usesSnapchatPixel()
+                    // ->usesFacebookPixel()
+                    // ->usesGoogleExperiments()
+                    // ->usesTypeForm()
+                    // ->usesGoogleAnalytics()
                     // ConditionsOfParticipations::make(),
-                        // ->endDate('30.07.2021')
+                    // ->endDate('30.07.2021')
                 ]),
         ]);
     }

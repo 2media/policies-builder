@@ -22,7 +22,7 @@ class WebserviceClientTest extends TestCase
             ],
         ];
 
-        $client = new WebserviceClient();
+        $client = new WebserviceClient;
 
         $response = $client->getPolicyForPayload($payload);
 
@@ -46,7 +46,7 @@ class WebserviceClientTest extends TestCase
             ],
         ];
 
-        $client = new WebserviceClient();
+        $client = new WebserviceClient;
 
         $response = $client->getPolicyForPayload($payload);
     }

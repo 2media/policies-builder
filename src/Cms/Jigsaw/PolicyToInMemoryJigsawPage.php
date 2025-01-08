@@ -18,11 +18,11 @@ class PolicyToInMemoryJigsawPage
             'content' => $html,
 
             // Unique InMemory Filename
-            'filename' => "index-{$language}-" . $policy->jigsawPathName(),
+            'filename' => "index-{$language}-".$policy->jigsawPathName(),
 
             // The `policy_type` must be defined like so. It can't be inlined in `path`
             'policy_type' => $policy->jigsawPathName(),
-            'path' => "{locale}/{policy_type}",
+            'path' => '{locale}/{policy_type}',
         ];
     }
 }

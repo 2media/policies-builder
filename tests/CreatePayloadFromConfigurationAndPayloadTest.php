@@ -19,7 +19,7 @@ class CreatePayloadFromConfigurationAndPayloadTest extends TestCase
         $termsOfService = TermsOfService::make();
         $language = 'de';
 
-        (new CreatePayloadFromConfigurationAndPayload())->create($configuration, $termsOfService, $language);
+        (new CreatePayloadFromConfigurationAndPayload)->create($configuration, $termsOfService, $language);
     }
 
     /** @test */
@@ -30,9 +30,8 @@ class CreatePayloadFromConfigurationAndPayloadTest extends TestCase
         $termsOfService = TermsOfService::make();
         $language = 'de';
 
-        $payload = (new CreatePayloadFromConfigurationAndPayload())
+        $payload = (new CreatePayloadFromConfigurationAndPayload)
             ->create($configuration, $termsOfService, $language);
-
 
         $this->assertEquals([
             'brand' => '2media',

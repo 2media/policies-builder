@@ -10,8 +10,6 @@ interface CanBeBuiltInJigsaw
      * Eg.
      * - `/de/{jigsawPathName}`
      * - `/en/{jigsawPathName}`
-     *
-     * @return string
      */
     public function jigsawPathName(): string;
 }

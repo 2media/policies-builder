@@ -23,7 +23,7 @@ class GlobalTranslatorTest extends TestCase
             'cache.default' => 'file',
             'cache.stores.file' => [
                 'driver' => 'file',
-                'path' => __DIR__ . '/../../../storage/cache',
+                'path' => __DIR__.'/../../../storage/cache',
             ],
         ]);
         $container['files'] = new Filesystem;
