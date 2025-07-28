@@ -1,8 +1,7 @@
 # 2media Policies Builder
 
 [![Tests](https://github.com/2media/policies-builder/actions/workflows/run-tests.yml/badge.svg)](https://github.com/2media/policies-builder/actions/workflows/run-tests.yml)
-[![Psalm](https://github.com/2media/policies-builder/actions/workflows/psalm.yml/badge.svg)](https://github.com/2media/policies-builder/actions/workflows/psalm.yml)
-[![Check & fix styling](https://github.com/2media/policies-builder/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/2media/policies-builder/actions/workflows/php-cs-fixer.yml)
+[![Check & fix styling](https://github.com/2media/policies-builder/actions/workflows/laravel-pint-fixer.yml/badge.svg)](https://github.com/2media/policies-builder/actions/workflows/laravel-pint-fixer.yml)
 
 A PHP package to build and generate policies for landingpages and websites.
 It currently supports the following policies:
@@ -27,20 +26,7 @@ It currently supports the following policies:
 ```
 
 ## Installation
-The package can be installed via composer. However, as this is a private package, it is not generally available by simply calling `composer require`.
-
-Add a `repositories` key like below to your `composer.json`.
-
-```json
-"repositories": [
-    {
-        "type": "composer",
-        "url": "https://packages.2media.ch"
-    }
-],
-```
-
-Now you can install the package by running.
+The package can be installed via composer.
 
 ```shell
 composer require 2media/policies-builder
@@ -189,7 +175,7 @@ Copyright::make(author: 'Picasso', source: 'unsplash.com', description: 'Hero Im
 IconCopyright::make(source: 'thenounproject.com');
 ```
 
-If non of the above classes solve the Copyright question for your project, feel free to create your own Copyright class. It just needs to implement the `Twomedia\PoliciesBuilder\Contracts\Stringable` interface – meaning just add a `__toString` method to your class.
+If none of the above classes solve the Copyright question for your project, feel free to create your own Copyright class. It just needs to implement the `Twomedia\PoliciesBuilder\Contracts\Stringable` interface – meaning just add a `__toString` method to your class.
 
 ```php
 new class() implements Stringable {
@@ -273,18 +259,6 @@ The key are defined by the Webservice app. You can find the German version of th
 ### Statamic
 
 > The package currently doesn't support Statamic yet.
-
-
-## Install the Package in GitHub Actions Workflows
-GitHub Actions Workflows of projects where this package is installed will fail to run `composer install` as the package is not public.
-To solve this, add the following lines to your GitHub Actions Workflow YAML file **before** `composer install` is executed. ([Example Workflow](https://github.com/2media/jigsaw-starterkit/blob/7197af8ecb2417c01087a87b2b356d5f7a35cf12/.github/workflows/integrate.yml#L16-L34))
-
-```yaml
--   name: Setup composer auth.json
-    run: composer config github-oauth.github.com ${{ secrets.COMPOSER_GITHUB_TOKEN }}
-```
-
-The `run` command will use a Github Private Access Token – issued by [2media-bot](https://github.com/2media-bot) – to authenticate composer with our private GitHub repositories. (More about this in [the composer docs](https://getcomposer.org/doc/articles/authentication-for-private-packages.md#github-oauth))
 
 ## Install local version in a project
 
