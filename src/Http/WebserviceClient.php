@@ -2,6 +2,7 @@
 
 namespace Twomedia\PoliciesBuilder\Http;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
@@ -9,10 +10,12 @@ use Twomedia\PoliciesBuilder\Exceptions\WebserviceClientException;
 
 class WebserviceClient
 {
-    const API_ENDPOINT = 'https://v2.webservice.apy.ch/policies?';
+    const string API_ENDPOINT = 'https://v2.webservice.apy.ch/policies?';
 
     /**
      * @throws RequestException
+     * @throws WebserviceClientException
+     * @throws ConnectionException
      */
     public function getPolicyForPayload(array $payload): Response
     {
