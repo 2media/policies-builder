@@ -2,7 +2,6 @@
 
 namespace Twomedia\PoliciesBuilder\Translations;
 
-use Illuminate\Cache\CacheManager;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
@@ -24,12 +23,7 @@ class GlobalTranslator
         'pl',
     ];
 
-    private readonly TranslationSource $source;
-
-    public function __construct(?TranslationSource $source = null, ?CacheManager $cacheManager = null)
-    {
-        $this->source = $source ?? new RemoteTranslationSource($cacheManager);
-    }
+    public function __construct(private readonly TranslationSource $source) {}
 
     /**
      * @return array|string
@@ -42,11 +36,11 @@ class GlobalTranslator
             throw new LogicException("Language {$languageToTranslateTo} not supported");
         }
 
-        $remoteLocaleStirngs = $this->source->fetch($languageToTranslateTo);
+        $localeStrings = $this->source->fetch($languageToTranslateTo);
 
         $translator = $this->setupTranslator($languageToTranslateTo);
 
-        $translator->addLines($remoteLocaleStirngs, $languageToTranslateTo);
+        $translator->addLines($localeStrings, $languageToTranslateTo);
 
         return $translator->get($key, $replace);
     }

@@ -16,6 +16,7 @@ It currently supports the following policies:
     ->languages(['de', 'fr', 'it', 'en'])
     ->domain('example.ch')
     ->brand('2media')
+    ->snapshotPath('resources/policies-snapshot')
     ->types([
         TermsOfService::make(),
         Imprint::make()
@@ -63,6 +64,7 @@ Next, add a `policies` key to your projects `config.php` with a `PoliciesConfigu
     ->languages(['de'])
     ->domain('example.com')
     ->brand('2media')
+    ->snapshotPath('resources/policies-snapshot')
     ->types([
         // Policies Objects
     ]),
@@ -104,6 +106,10 @@ Optional. Defaults to `default`. Define which variant of policies you would like
 ##### `types([])`
 
 **Required**. An array of configured policies. See [Supported Policies](#supported-policies) for details.
+
+##### `snapshotPath(string)`
+
+**Required**. Path to the directory holding your committed policy/translation snapshot. See [Snapshot Mode](#snapshot-mode) below.
 
 
 #### Supported Policies
@@ -216,23 +222,19 @@ ConditionsOfParticipation::make()
 
 #### Global Translations
 
-Instead of defining the translations for the names of the policies ("Impressum", "Conditions d’utilisation") for the policies in your Jigsaw project, you can use the `GlobalTranslator` that comes with the package.
-
-The `GlobalTranslator` connects with our Webservice and gets the translations from a central place. If you follow these directions, the HTTP requests won't have any impact on the build time, as the requests/responses are cached for 24 hours on your machine.
-
-**Setup Caching**
-As Jigsaw doesn't expose a Cache system like in a normal Laravel application, we have to do it ourselves. Add the following line to your `bootstrap.php` file to register the packages cache into the Jigsaw Container.
-
-```php
-$events->beforeBuild(\Twomedia\PoliciesBuilder\Cms\Jigsaw\Listeners\RegisterCacheInContainer::class);
-```
+Instead of defining the translations for the names of the policies ("Impressum", "Conditions d’utilisation") for the policies in your Jigsaw project, you can use the `GlobalTranslator` that comes with the package. It reads translation strings from a committed JSON snapshot (see [Snapshot Mode](#snapshot-mode) below) — no network access is involved.
 
 **Add `transGlobal` function**
 Add the following line to your projects `config.php` to expose the `GlobalTranslator` in your projects blade templates.
 
 ```php
+use Twomedia\PoliciesBuilder\Translations\GlobalTranslator;
+use Twomedia\PoliciesBuilder\Translations\LocalSnapshotTranslationSource;
+
 'transGlobal' => function ($page, $key, array $replace = []) {
-    return Container::getInstance()->make(GlobalTranslator::class)->trans($page, $key, $replace);
+    $translator = new GlobalTranslator(new LocalSnapshotTranslationSource('resources/policies-snapshot'));
+
+    return $translator->trans($page, $key, $replace);
 },
 ```
 
@@ -254,28 +256,11 @@ The following translations keys are currently available:
 - `global.privacy`
 - `global.conditions_of_participation`
 
-The key are defined by the Webservice app. You can find the German version of the available keys [here](https://github.com/2media/webservice-neo/blob/master/public/lang/de/policies.json).
-
 #### Snapshot Mode
 
-By default, `PoliciesCollection` and `GlobalTranslator` fetch policy content and translations from the remote webservice on every build ("remote mode", described above). Projects can instead opt into **snapshot mode**, where policies and translations are read from committed JSON files instead, and the webservice is never called at build time.
+`PoliciesCollection` and `GlobalTranslator` read policy content and translations from a committed JSON snapshot. No network access is involved at build time.
 
-**1. Generate a snapshot**
-
-From your Jigsaw project (after requiring this package), run:
-
-```shell
-vendor/bin/policies-snapshot --config=config.php --output=resources/policies-snapshot
-```
-
-This calls the webservice once for every configured language/policy combination and writes:
-
-- `resources/policies-snapshot/policies/{locale}/{policy_type}.json` — one file per resolved policy (`policy_type`, `locale`, `meta_title`, `meta_description`, `content`, `path`).
-- `resources/policies-snapshot/translations/{locale}.json` — the global translation strings used by `transGlobal()`.
-
-Commit these files to your repository. Re-run the command whenever policy content or translations legitimately need to change.
-
-**2. Opt in via `PoliciesConfiguration`**
+**1. Opt in via `PoliciesConfiguration`**
 
 ```php
 'policies' => PoliciesConfiguration::make()
@@ -287,22 +272,18 @@ Commit these files to your repository. Re-run the command whenever policy conten
     ]),
 ```
 
-No changes to your `collections` wiring are needed — `PoliciesCollection` automatically reads from the snapshot instead of the webservice once `snapshotPath()` is set.
+No changes to your `collections` wiring are needed — `PoliciesCollection` reads from the snapshot once `snapshotPath()` is set.
 
-**3. Update `transGlobal` to use the snapshot too**
+**2. Provide the snapshot files**
 
-```php
-use Twomedia\PoliciesBuilder\Translations\GlobalTranslator;
-use Twomedia\PoliciesBuilder\Translations\LocalSnapshotTranslationSource;
+Under the configured path, provide:
 
-'transGlobal' => function ($page, $key, array $replace = []) {
-    $translator = new GlobalTranslator(new LocalSnapshotTranslationSource('resources/policies-snapshot'));
+- `resources/policies-snapshot/policies/{locale}/{policy_type}.json` — one file per resolved policy: `policy_type`, `locale`, `meta_title`, `meta_description`, `content`, `path`.
+- `resources/policies-snapshot/translations/{locale}.json` — the global translation strings used by `transGlobal()` (key → value map).
 
-    return $translator->trans($page, $key, $replace);
-},
-```
+Commit these files to your repository.
 
-You can then remove the `RegisterCacheInContainer` listener from `bootstrap.php` — snapshot mode doesn't need a cache, since reading a committed file is already fast.
+> **Note:** versions of this package up to `v1.10.x` included a `bin/policies-snapshot` command and a remote (webservice-backed) mode that could generate these files for you automatically. As of `v2.0.0`, that remote code has been removed — the webservice it depended on (`v2.webservice.apy.ch`) has been decommissioned. If you need to update policy content or translations going forward, edit the committed JSON snapshot files directly.
 
 ### Statamic
 
