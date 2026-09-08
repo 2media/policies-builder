@@ -4,13 +4,32 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/2media/policies-builder/compare/v1.10.0...HEAD)
+## [Unreleased](https://github.com/2media/policies-builder/compare/v2.0.0...HEAD)
 
 > The CHANGELOG is auto-generated with `release-drafter`.
 Check all currently unreleased changed on the releases page:
 https://github.com/2media/policies-builder/releases
 
 <!-- Please do not add single changes manually to the CHANGELOG. -->
+## [v2.0.0](https://github.com/2media/policies-builder/compare/v1.10.0...v2.0.0) - 2026-09-08
+
+### Breaking Changes
+
+- Remove remote (webservice-backed) policy/translation sources ([#23](https://github.com/2media/policies-builder/pull/23))
+
+Now that all consuming `lp-*` projects have migrated to snapshot mode (v1.10) and `https://v2.webservice.apy.ch` has been fully decommissioned, this release removes the now-dead remote code entirely: `WebserviceClient`, `RemotePolicySource`, `RemoteTranslationSource`, `RegisterCacheInContainer`, `SnapshotGenerator`/`bin/policies-snapshot`, and their `guzzlehttp/guzzle`, `illuminate/cache`, `illuminate/container`, `illuminate/http` dependencies.
+
+**Breaking changes:**
+
+- `PoliciesCollection` now requires `PoliciesConfiguration::snapshotPath()` to be set (throws a clear error otherwise, instead of silently calling the now-decommissioned webservice).
+- `GlobalTranslator`'s constructor now requires a `TranslationSource` (previously optional with a remote fallback). Projects already using `snapshotPath()` and `LocalSnapshotTranslationSource` (v1.10+) need **no code changes** to upgrade.
+
+**If you're still on v1.9 or earlier (remote mode only):** migrate to snapshot mode on `^1.10` first (see the README's "Snapshot Mode" section), generate and commit your policy/translation snapshot with `vendor/bin/policies-snapshot`, then upgrade to `^2.0`.
+
+See [DEV-82105](https://clarkteam.atlassian.net/browse/DEV-82105).
+
+**Full Changelog**: https://github.com/2media/policies-builder/compare/v1.10.0...v2.0.0
+
 ## [v1.10.0](https://github.com/2media/policies-builder/compare/v1.9.0...v1.10.0) - 2026-09-08
 
 ### Added
