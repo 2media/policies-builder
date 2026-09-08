@@ -7,9 +7,9 @@ use Twomedia\PoliciesBuilder\Contracts\Policy;
 use Twomedia\PoliciesBuilder\Contracts\PolicySource;
 use Twomedia\PoliciesBuilder\Contracts\TranslationSource;
 use Twomedia\PoliciesBuilder\DTOs\ResolvedPolicy;
-use Twomedia\PoliciesBuilder\PoliciesConfiguration;
 use Twomedia\PoliciesBuilder\Policies\Imprint;
 use Twomedia\PoliciesBuilder\Policies\TermsOfService;
+use Twomedia\PoliciesBuilder\PoliciesConfiguration;
 use Twomedia\PoliciesBuilder\Snapshot\SnapshotGenerator;
 
 class SnapshotGeneratorTest extends TestCase

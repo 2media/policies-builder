@@ -4,8 +4,8 @@ namespace Twomedia\PoliciesBuilder\Tests\Sources;
 
 use PHPUnit\Framework\TestCase;
 use Twomedia\PoliciesBuilder\Exceptions\SnapshotMissingException;
-use Twomedia\PoliciesBuilder\PoliciesConfiguration;
 use Twomedia\PoliciesBuilder\Policies\Imprint;
+use Twomedia\PoliciesBuilder\PoliciesConfiguration;
 use Twomedia\PoliciesBuilder\Sources\LocalSnapshotPolicySource;
 
 class LocalSnapshotPolicySourceTest extends TestCase
