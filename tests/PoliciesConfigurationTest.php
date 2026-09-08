@@ -39,4 +39,13 @@ class PoliciesConfigurationTest extends TestCase
             ],
         ], $configAsArray);
     }
+
+    /** @test */
+    public function snapshot_path_can_be_configured()
+    {
+        $config = PoliciesConfiguration::make()
+            ->snapshotPath('resources/policies-snapshot');
+
+        $this->assertEquals('resources/policies-snapshot', $config['snapshotPath']);
+    }
 }

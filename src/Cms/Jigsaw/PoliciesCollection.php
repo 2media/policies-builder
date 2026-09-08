@@ -3,12 +3,13 @@
 namespace Twomedia\PoliciesBuilder\Cms\Jigsaw;
 
 use Closure;
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
 use Twomedia\PoliciesBuilder\Contracts\Policy;
-use Twomedia\PoliciesBuilder\CreatePayloadFromConfigurationAndPayload;
-use Twomedia\PoliciesBuilder\Http\WebserviceClient;
+use Twomedia\PoliciesBuilder\Contracts\PolicySource;
+use Twomedia\PoliciesBuilder\DTOs\ResolvedPolicy;
 use Twomedia\PoliciesBuilder\PoliciesConfiguration;
+use Twomedia\PoliciesBuilder\Sources\LocalSnapshotPolicySource;
+use Twomedia\PoliciesBuilder\Sources\RemotePolicySource;
 
 class PoliciesCollection
 {
@@ -21,15 +22,26 @@ class PoliciesCollection
         $this->jigsawConfig = $config;
         $this->policiesConfiguration = $config->get('policies');
 
+        $source = $this->resolveSource();
+
         return $this->getLanguagesToGenerate()
-            ->map(fn (string $language) => $this->getPoliciesToGenerate()->map(function (Policy $policy) use ($language) {
-                $response = (new WebserviceClient)->getPolicyForPayload($this->getPayload($policy, $language));
+            ->map(fn (string $language) => $this->getPoliciesToGenerate()->map(function (Policy $policy) use ($language, $source) {
+                $resolved = $source->resolve($policy, $language, $this->policiesConfiguration);
 
-                $metaTitle = $this->getTranslatedMetaTitle($language, $policy);
-
-                return $this->generateInMemoryJigsawPage($policy, $response, $language, $metaTitle);
+                return $this->generateInMemoryJigsawPage($policy, $resolved, $language);
             }))
             ->flatten(1);
+    }
+
+    private function resolveSource(): PolicySource
+    {
+        $snapshotPath = $this->policiesConfiguration['snapshotPath'] ?? null;
+
+        if ($snapshotPath !== null) {
+            return new LocalSnapshotPolicySource($snapshotPath);
+        }
+
+        return new RemotePolicySource($this->translationFunction());
     }
 
     private function getLanguagesToGenerate(): Collection
@@ -42,40 +54,16 @@ class PoliciesCollection
         return collect($this->policiesConfiguration['types']);
     }
 
-    private function getPayload(Policy $type, string $language): array
-    {
-        return (new CreatePayloadFromConfigurationAndPayload)->create(
-            $this->policiesConfiguration,
-            $type,
-            $language
-        );
-    }
-
-    /**
-     * @return mixed
-     */
-    private function getTranslatedMetaTitle(string $language, Policy $type)
-    {
-        $page = new FakePage($language);
-
-        return $this->translationFunction()($page, $type->metaTitleKey());
-    }
-
     private function translationFunction(): ?Closure
     {
         return $this->jigsawConfig->get('transGlobal');
     }
 
-    /**
-     * @param  mixed  $metaTitle
-     */
-    private function generateInMemoryJigsawPage(Policy $type, Response $policy, string $language, string $metaTitle): array
+    private function generateInMemoryJigsawPage(Policy $type, ResolvedPolicy $resolved, string $language): array
     {
         $toJigsawPage = new PolicyToInMemoryJigsawPage;
 
-        $html = $policy->json()['html'];
-
         /** @psalm-suppress InvalidArgument */
-        return $toJigsawPage->generate($type, $html, $language, $metaTitle);
+        return $toJigsawPage->generate($type, $resolved->content, $language, $resolved->metaTitle, $resolved->metaDescription);
     }
 }
