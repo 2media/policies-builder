@@ -2,27 +2,22 @@
 
 namespace Twomedia\PoliciesBuilder\Cms\Jigsaw;
 
-use Closure;
 use Illuminate\Support\Collection;
+use LogicException;
 use Twomedia\PoliciesBuilder\Contracts\Policy;
-use Twomedia\PoliciesBuilder\Contracts\PolicySource;
 use Twomedia\PoliciesBuilder\DTOs\ResolvedPolicy;
 use Twomedia\PoliciesBuilder\PoliciesConfiguration;
 use Twomedia\PoliciesBuilder\Sources\LocalSnapshotPolicySource;
-use Twomedia\PoliciesBuilder\Sources\RemotePolicySource;
 
 class PoliciesCollection
 {
-    private Collection $jigsawConfig;
-
     private PoliciesConfiguration $policiesConfiguration;
 
     public function generate(Collection $config): Collection
     {
-        $this->jigsawConfig = $config;
         $this->policiesConfiguration = $config->get('policies');
 
-        $source = $this->resolveSource();
+        $source = new LocalSnapshotPolicySource($this->snapshotPath());
 
         return $this->getLanguagesToGenerate()
             ->map(fn (string $language) => $this->getPoliciesToGenerate()->map(function (Policy $policy) use ($language, $source) {
@@ -33,15 +28,19 @@ class PoliciesCollection
             ->flatten(1);
     }
 
-    private function resolveSource(): PolicySource
+    private function snapshotPath(): string
     {
         $snapshotPath = $this->policiesConfiguration['snapshotPath'] ?? null;
 
-        if ($snapshotPath !== null) {
-            return new LocalSnapshotPolicySource($snapshotPath);
+        if ($snapshotPath === null) {
+            throw new LogicException(
+                'PoliciesConfiguration::snapshotPath() is not set. Define one and generate the '.
+                'snapshot with `vendor/bin/policies-snapshot` (see the "Snapshot Mode" section '.
+                'of the README for the version of this package that still supports it).'
+            );
         }
 
-        return new RemotePolicySource($this->translationFunction());
+        return $snapshotPath;
     }
 
     private function getLanguagesToGenerate(): Collection
@@ -52,11 +51,6 @@ class PoliciesCollection
     private function getPoliciesToGenerate(): Collection
     {
         return collect($this->policiesConfiguration['types']);
-    }
-
-    private function translationFunction(): ?Closure
-    {
-        return $this->jigsawConfig->get('transGlobal');
     }
 
     private function generateInMemoryJigsawPage(Policy $type, ResolvedPolicy $resolved, string $language): array

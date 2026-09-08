@@ -2,116 +2,101 @@
 
 namespace Twomedia\PoliciesBuilder\Tests\Cms\Jigsaw;
 
-use Illuminate\Cache\CacheManager;
-use Illuminate\Container\Container;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use Twomedia\PoliciesBuilder\Cms\Jigsaw\PoliciesCollection;
-use Twomedia\PoliciesBuilder\DTOs\CooperationPartner;
-use Twomedia\PoliciesBuilder\DTOs\Copyright;
-use Twomedia\PoliciesBuilder\DTOs\IconCopyright;
 use Twomedia\PoliciesBuilder\Policies\Imprint;
 use Twomedia\PoliciesBuilder\Policies\TermsOfService;
 use Twomedia\PoliciesBuilder\PoliciesConfiguration;
-use Twomedia\PoliciesBuilder\Translations\GlobalTranslator;
 
 class PoliciesCollectionTest extends TestCase
 {
-    public Container $container;
+    private string $snapshotPath;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $container = new Container;
+        $this->snapshotPath = sys_get_temp_dir().'/policies-builder-test-'.uniqid();
 
-        $container['config'] = collect([
-            'cache.default' => 'file',
-            'cache.stores.file' => [
-                'driver' => 'file',
-                'path' => __DIR__.'/../../../storage/cache',
-            ],
-        ]);
-        $container['files'] = new Filesystem;
+        foreach (['de', 'fr'] as $language) {
+            mkdir("{$this->snapshotPath}/policies/{$language}", 0777, true);
 
-        $cacheManager = new CacheManager($container);
+            foreach (['terms' => TermsOfService::make(), 'imprint' => Imprint::make()] as $type => $policy) {
+                file_put_contents("{$this->snapshotPath}/policies/{$language}/{$type}.json", json_encode([
+                    'policy_type' => $type,
+                    'locale' => $language,
+                    'meta_title' => "{$type}-{$language}-title",
+                    'meta_description' => '',
+                    'content' => "<h1>{$type}-{$language}</h1>",
+                ]));
+            }
+        }
+    }
 
-        // Register CacheManager in Container
-        $container->singleton(CacheManager::class, fn () => $cacheManager);
+    protected function tearDown(): void
+    {
+        parent::tearDown();
 
-        $this->container = $container;
+        $this->deleteDirectory($this->snapshotPath);
     }
 
     /** @test */
-    public function returns_array_for_each_defined_policy_and_language()
+    public function it_reads_policies_from_the_snapshot_without_any_network_access()
     {
-        $config = $this->getJigsawConfiguration();
+        $config = collect([
+            'policies' => PoliciesConfiguration::make()
+                ->languages(['de', 'fr'])
+                ->domain('example.ch')
+                ->snapshotPath($this->snapshotPath)
+                ->types([
+                    TermsOfService::make(),
+                    Imprint::make(),
+                ]),
+        ]);
 
         $result = (new PoliciesCollection)->generate($config);
 
         $this->assertCount(4, $result);
 
-        $termsOfServicePolicies = $result->filter(fn ($policy) => $policy['policy_type'] === 'terms');
+        $germanImprint = $result->first(fn ($page) => $page['policy_type'] === 'imprint' && $page['locale'] === 'de');
 
-        $this->assertCount(2, $termsOfServicePolicies);
-        $this->assertEquals('Nutzungsbedingungen', $termsOfServicePolicies[0]['meta_title']);
-        $this->assertEquals("Conditions d'utilisation", $termsOfServicePolicies[2]['meta_title']);
-        $this->assertEquals('', $termsOfServicePolicies[0]['meta_description']);
-        $this->assertEquals('', $termsOfServicePolicies[2]['meta_description']);
-
-        $imprintPolicies = $result->filter(fn ($policy) => $policy['policy_type'] === 'imprint');
-
-        $this->assertCount(2, $imprintPolicies);
-        $this->assertEquals('Impressum', $imprintPolicies[1]['meta_title']);
-        $this->assertEquals('Mentions légales', $imprintPolicies[3]['meta_title']);
-        $this->assertEquals('', $imprintPolicies[1]['meta_description']);
-        $this->assertEquals('', $imprintPolicies[3]['meta_description']);
+        $this->assertEquals('imprint-de-title', $germanImprint['meta_title']);
+        $this->assertEquals('<h1>imprint-de</h1>', $germanImprint['content']);
+        $this->assertEquals('', $germanImprint['meta_description']);
+        $this->assertEquals('{locale}/{policy_type}', $germanImprint['path']);
     }
 
-    protected function getJigsawConfiguration(): Collection
+    /** @test */
+    public function it_throws_a_clear_exception_when_snapshot_path_is_not_configured()
     {
-        return collect([
-            'transGlobal' => fn ($page, $key, array $replace = []) => $this->container->make(GlobalTranslator::class)->trans($page, $key, $replace),
-
+        $config = collect([
             'policies' => PoliciesConfiguration::make()
-                ->languages(['de', 'fr'])
-                ->domain('onlineanfrage.ch')
-                ->brand('2media')
-                ->variant('services')
+                ->languages(['de'])
+                ->domain('example.ch')
                 ->types([
-                    TermsOfService::make()
-                        ->inCooperationWith(CooperationPartner::make(
-                            'Swisscom Directories AG',
-                            'Swisscom Directories',
-                            'https://www.renovero.ch/'
-                        )),
-                    Imprint::make()
-                        ->imageCopyrights([
-                            Copyright::make('2mmedia', 'Adobe Stock', 'Klavierumzug'),
-                            Copyright::make('adam121', 'Envato Elements', 'Handwerker Startseite'),
-                            Copyright::make('bialasiewicz', 'Envato Elements', 'Maler, Garagentor'),
-                            Copyright::make('duallogic', 'Envato Elements', 'Handwerker, Elektriker, Heizung, Dachdecker, Gärtner, Parkett'),
-                            Copyright::make('ivankmit', 'Envato Elements', 'Bodenleger'),
-                            Copyright::make('klenova', 'Envato Elements', 'Reinigung'),
-                            Copyright::make('leikapro', 'Envato Elements', 'Umzug'),
-                            Copyright::make('mariesacha', 'Adobe Stock', 'Katzentürchen'),
-                            Copyright::make('seventyfourimages', 'Envato Elements', 'Schreiner'),
-                            Copyright::make('Vladdeep', 'Envato Elements', 'Sanitär'),
-                            Copyright::make('Wavebreak Media Ltd', 'Bigstockphoto.com', 'Fenster'),
-                            IconCopyright::make('thenounproject.com'),
-                        ]),
-
-                    // These Policies are not implemented yet and the API Requests will fail!
-                    // PrivacyPolicy::make(),
-                    // ->usesSnapchatPixel()
-                    // ->usesFacebookPixel()
-                    // ->usesGoogleExperiments()
-                    // ->usesTypeForm()
-                    // ->usesGoogleAnalytics()
-                    // ConditionsOfParticipations::make(),
-                    // ->endDate('30.07.2021')
+                    TermsOfService::make(),
                 ]),
         ]);
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('snapshotPath');
+
+        (new PoliciesCollection)->generate($config);
+    }
+
+    private function deleteDirectory(string $dir): void
+    {
+        if (! is_dir($dir)) {
+            return;
+        }
+
+        $items = array_diff(scandir($dir), ['.', '..']);
+
+        foreach ($items as $item) {
+            $path = "{$dir}/{$item}";
+            is_dir($path) ? $this->deleteDirectory($path) : unlink($path);
+        }
+
+        rmdir($dir);
     }
 }
