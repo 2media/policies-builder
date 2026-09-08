@@ -2,7 +2,6 @@
 
 namespace Twomedia\PoliciesBuilder\Tests\Cms\Jigsaw;
 
-use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 use Twomedia\PoliciesBuilder\Cms\Jigsaw\PoliciesCollection;
 use Twomedia\PoliciesBuilder\Policies\Imprint;
