@@ -1,0 +1,51 @@
+#!/usr/bin/env php
+<?php
+
+use Twomedia\PoliciesBuilder\Snapshot\SnapshotGenerator;
+
+$autoloadCandidates = [
+    getcwd().'/vendor/autoload.php',
+    __DIR__.'/../../../autoload.php',
+    __DIR__.'/../vendor/autoload.php',
+];
+
+$autoloaded = false;
+
+foreach ($autoloadCandidates as $candidate) {
+    if (is_file($candidate)) {
+        require $candidate;
+        $autoloaded = true;
+        break;
+    }
+}
+
+if (! $autoloaded) {
+    fwrite(STDERR, "Could not find vendor/autoload.php. Run this command from the root of your project (e.g. `vendor/bin/policies-snapshot`).\n");
+    exit(1);
+}
+
+$options = getopt('', ['config::', 'output::']);
+$configFile = $options['config'] ?? 'config.php';
+$outputDir = $options['output'] ?? 'resources/policies-snapshot';
+
+if (! is_file($configFile)) {
+    fwrite(STDERR, "Config file not found: {$configFile}\n");
+    exit(1);
+}
+
+$config = require $configFile;
+
+if (! is_array($config) || ! isset($config['policies'])) {
+    fwrite(STDERR, "No 'policies' key found in {$configFile}. Expected a PoliciesConfiguration instance under \$config['policies'].\n");
+    exit(1);
+}
+
+echo "Fetching policies from the webservice and writing snapshot to {$outputDir} ...\n";
+
+$written = (new SnapshotGenerator)->generate($config['policies'], $outputDir);
+
+foreach ($written as $file) {
+    echo "  wrote {$file}\n";
+}
+
+echo count($written)." snapshot file(s) written to {$outputDir}\n";

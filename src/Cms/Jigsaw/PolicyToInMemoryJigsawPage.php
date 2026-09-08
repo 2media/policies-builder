@@ -6,14 +6,14 @@ use Twomedia\PoliciesBuilder\Contracts\CanBeBuiltInJigsaw;
 
 class PolicyToInMemoryJigsawPage
 {
-    public function generate(CanBeBuiltInJigsaw $policy, string $html, string $language, string $metaTitle): array
+    public function generate(CanBeBuiltInJigsaw $policy, string $html, string $language, string $metaTitle, string $metaDescription = ''): array
     {
         return [
             'extends' => '_layouts.policy',
             'lang' => $language,
             'locale' => $language,
             'meta_title' => $metaTitle,
-            'meta_description' => '',
+            'meta_description' => $metaDescription,
             'meta_description_key' => '',
             'content' => $html,
 

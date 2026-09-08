@@ -256,6 +256,54 @@ The following translations keys are currently available:
 
 The key are defined by the Webservice app. You can find the German version of the available keys [here](https://github.com/2media/webservice-neo/blob/master/public/lang/de/policies.json).
 
+#### Snapshot Mode
+
+By default, `PoliciesCollection` and `GlobalTranslator` fetch policy content and translations from the remote webservice on every build ("remote mode", described above). Projects can instead opt into **snapshot mode**, where policies and translations are read from committed JSON files instead, and the webservice is never called at build time.
+
+**1. Generate a snapshot**
+
+From your Jigsaw project (after requiring this package), run:
+
+```shell
+vendor/bin/policies-snapshot --config=config.php --output=resources/policies-snapshot
+```
+
+This calls the webservice once for every configured language/policy combination and writes:
+
+- `resources/policies-snapshot/policies/{locale}/{policy_type}.json` — one file per resolved policy (`policy_type`, `locale`, `meta_title`, `meta_description`, `content`, `path`).
+- `resources/policies-snapshot/translations/{locale}.json` — the global translation strings used by `transGlobal()`.
+
+Commit these files to your repository. Re-run the command whenever policy content or translations legitimately need to change.
+
+**2. Opt in via `PoliciesConfiguration`**
+
+```php
+'policies' => PoliciesConfiguration::make()
+    ->languages(['de', 'fr'])
+    ->domain('example.ch')
+    ->snapshotPath('resources/policies-snapshot')
+    ->types([
+        // ...
+    ]),
+```
+
+No changes to your `collections` wiring are needed — `PoliciesCollection` automatically reads from the snapshot instead of the webservice once `snapshotPath()` is set.
+
+**3. Update `transGlobal` to use the snapshot too**
+
+```php
+use Twomedia\PoliciesBuilder\Translations\GlobalTranslator;
+use Twomedia\PoliciesBuilder\Translations\LocalSnapshotTranslationSource;
+
+'transGlobal' => function ($page, $key, array $replace = []) {
+    $translator = new GlobalTranslator(new LocalSnapshotTranslationSource('resources/policies-snapshot'));
+
+    return $translator->trans($page, $key, $replace);
+},
+```
+
+You can then remove the `RegisterCacheInContainer` listener from `bootstrap.php` — snapshot mode doesn't need a cache, since reading a committed file is already fast.
+
 ### Statamic
 
 > The package currently doesn't support Statamic yet.

@@ -3,11 +3,11 @@
 namespace Twomedia\PoliciesBuilder\Translations;
 
 use Illuminate\Cache\CacheManager;
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Translation\FileLoader;
 use Illuminate\Translation\Translator;
 use LogicException;
+use Twomedia\PoliciesBuilder\Contracts\TranslationSource;
 
 class GlobalTranslator
 {
@@ -24,22 +24,11 @@ class GlobalTranslator
         'pl',
     ];
 
-    const SECONDS_TO_CACHE_LOCALE_FILES = 60 * 60 * 24;
+    private readonly TranslationSource $source;
 
-    private readonly ?CacheManager $cacheManager;
-
-    public function __construct(?CacheManager $cacheManager = null)
+    public function __construct(?TranslationSource $source = null, ?CacheManager $cacheManager = null)
     {
-        if ($cacheManager === null) {
-            /**
-             * @var CacheManager $cache
-             *
-             * @psalm-suppress UndefinedClass
-             */
-            $cacheManager = Container::getInstance()->make(CacheManager::class);
-        }
-
-        $this->cacheManager = $cacheManager;
+        $this->source = $source ?? new RemoteTranslationSource($cacheManager);
     }
 
     /**
@@ -53,24 +42,13 @@ class GlobalTranslator
             throw new LogicException("Language {$languageToTranslateTo} not supported");
         }
 
-        // Make HTTP Request to Webservice, to fetch latest version of locale strings for the given language
-        // The response is cached for x amount of seconds.
-        $remoteLocaleStirngs = $this->cacheManager->remember(
-            "trans::policies::{$languageToTranslateTo}",
-            self::SECONDS_TO_CACHE_LOCALE_FILES,
-            fn () => $this->fetchLocaleStringsForLanguage($languageToTranslateTo)
-        );
+        $remoteLocaleStirngs = $this->source->fetch($languageToTranslateTo);
 
         $translator = $this->setupTranslator($languageToTranslateTo);
 
         $translator->addLines($remoteLocaleStirngs, $languageToTranslateTo);
 
         return $translator->get($key, $replace);
-    }
-
-    protected function fetchLocaleStringsForLanguage(string $language): array
-    {
-        return json_decode(file_get_contents("https://v2.webservice.apy.ch/lang/{$language}/policies.json"), true);
     }
 
     protected function setupTranslator(string $languageToTranslateTo): Translator

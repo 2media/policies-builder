@@ -52,6 +52,20 @@ class PoliciesConfiguration implements ArrayAccess
         return $this;
     }
 
+    /**
+     * Opt into snapshot mode: policies (and, via `GlobalTranslator`,
+     * translation strings) are read from committed JSON files under this
+     * path instead of calling the remote webservice at build time.
+     *
+     * Generate/refresh the snapshot files with `vendor/bin/policies-snapshot`.
+     */
+    public function snapshotPath(string $path): self
+    {
+        $this->config['snapshotPath'] = $path;
+
+        return $this;
+    }
+
     public function toArray(): array
     {
         return $this->config;

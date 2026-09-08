@@ -45,6 +45,9 @@
             "Twomedia\\PoliciesBuilder\\Tests\\": "tests"
         }
     },
+    "bin": [
+        "bin/policies-snapshot"
+    ],
     "scripts": {
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
