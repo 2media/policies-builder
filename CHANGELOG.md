@@ -4,13 +4,32 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/2media/policies-builder/compare/v1.9.0...HEAD)
+## [Unreleased](https://github.com/2media/policies-builder/compare/v1.10.0...HEAD)
 
 > The CHANGELOG is auto-generated with `release-drafter`.
 Check all currently unreleased changed on the releases page:
 https://github.com/2media/policies-builder/releases
 
 <!-- Please do not add single changes manually to the CHANGELOG. -->
+## [v1.10.0](https://github.com/2media/policies-builder/compare/v1.9.0...v1.10.0) - 2026-09-08
+
+### Added
+
+- Add local snapshot mode for policies and translations ([#22](https://github.com/2media/policies-builder/pull/22))
+
+`policies-builder` can now generate a one-time local snapshot of resolved policies and translations for a consuming project, instead of calling `https://v2.webservice.apy.ch` on every build. This is fully opt-in and backward compatible — existing projects that don't set `PoliciesConfiguration::snapshotPath()` keep working exactly as before.
+
+**New in this release:**
+
+- `PoliciesConfiguration::snapshotPath(string $path)` to opt a project into snapshot mode.
+- `bin/policies-snapshot` CLI command to generate the snapshot (`vendor/bin/policies-snapshot --config=config.php --output=resources/policies-snapshot`).
+- `PolicySource`/`TranslationSource` abstractions (`Remote*` and `LocalSnapshot*` implementations).
+- See the README's new "Snapshot Mode" section for full usage.
+
+This release lays the groundwork for decommissioning `https://v2.webservice.apy.ch` — see [DEV-82105](https://clarkteam.atlassian.net/browse/DEV-82105).
+
+**Full Changelog**: https://github.com/2media/policies-builder/compare/v1.9.0...v1.10.0
+
 ## [v1.9.0](https://github.com/2media/policies-builder/compare/v1.8.0...v1.9.0) - 2025-01-08
 
 ### Changed
